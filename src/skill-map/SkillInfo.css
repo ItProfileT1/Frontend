@@ -1,0 +1,74 @@
+.skill-info {
+    width: 250px;
+    padding: 25px;
+    height: 350px;
+    border-radius: 20px;
+    background: #e1e4e5;
+    color: #222222;
+    margin: 0 20px;
+    user-select: none;
+    border: 4px solid #33bee3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.skill-info-close,
+.skill-edit-close {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.skill-info-close>img {
+    width: 20px;
+    height: 20px;
+}
+
+.skill-info-name {
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 20px;
+    max-height: 50px;
+    height: 50px;
+}
+
+.skill-info-description {
+    font-size: 15px;
+    font-weight: 300;
+    height: 160px;
+    margin-bottom: 10px
+}
+
+.skill-info-progress {
+    font-weight: 800;
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border: 2px #33bee3 solid;
+    border-radius: 50%;
+}
+
+.skill-info>div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.skill-info-noscore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    font-weight: 700;
+}
+
+.skill-info textarea {
+    cursor:default;
+    user-select: none;
+    /* pointer-events: none; */
+}

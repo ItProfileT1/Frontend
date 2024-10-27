@@ -1,0 +1,108 @@
+#login-panel {
+    width: 410px;
+    height: 425px;
+    position: absolute;
+    left: calc(50% - 240px);
+    top: calc(50% - 230px);
+    padding: 10px 35px 25px;
+    background: #e1e4e5;
+    border-radius: 10px;
+    border: 5px #33bee3 solid; 
+}
+
+
+#register-panel {
+    width: 410px;
+    height: 505px;
+    position: absolute;
+    left: calc(50% - 240px);
+    top: calc(50% - 270px);
+    padding: 10px 35px 25px;
+    background: #1f2324;
+    border-radius: 10px;
+    border: 5px #33bee3 solid; 
+}
+
+.auth-info-text {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
+
+
+.auth-input-block {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.auth-input-block:not(:first-child) {
+    margin-top: 30px;
+}
+
+.auth-input-icon {
+    width: 48px;
+    height: 48px;
+    border: 1px #33bee3 solid;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.30);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-input-static {
+    height: 50px;
+    position: relative;
+}
+
+.auth-input-text {
+    position: absolute;
+    font-weight: 500;
+    font-size: 14px;
+    color: #33bee3;
+    top: -8px;
+    left: 15px;
+}
+
+.auth-input-block input {
+    position: absolute;
+    left: 15px;
+    height: 50px;
+    width: 300px;
+    padding: 0;
+    background: none;
+    border: 0px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.auth-input-block input::placeholder {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #222222;
+}
+
+.auth-error {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.auth-button {
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 4px;
+    width: 410px;
+    height: 60px;
+    position: absolute;
+    bottom: 35px;
+}
+
+
+
+

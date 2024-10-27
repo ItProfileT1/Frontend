@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('../public/assets/bg2.jpg');
+  background-repeat: no-repeat;
+  padding: 0;
+  color: #222222;
+}
+
+
+button {
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  font-weight: 700;
+  border-radius: 5px;
+  color: #222222;
+  padding: 5px 15px;
+  font-size: 16px;
+}
+
+input {
+  font-family: 'Montserrat', sans-serif;
+  color: #222222;
+  outline: none;
+}
+
+textarea {
+  color: #222222;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  border: 2px #33bee3 solid;
+  border-radius: 5px;
+  resize: none;
+  padding: 10px;
+  height: 160px;
+  width: 226px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 5px;
+  background: #222222;
+  border-radius: 15px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: linear-gradient(225.72deg, #61dafb 0%, #1dcbf9 100%);
+  border-radius: 15px;
+}
+
+
+.blue-button {
+  background: linear-gradient(250.85deg, #61dafb 5.14%, #33bee3 52.26%, #61dafb 92.13%) 0% 0% / 300% 100%;
+}
+
+.blue-button:hover {
+  animation: 5s ease 0s infinite normal none running selected;
+}
+
+.blue-button:active {
+  background: linear-gradient(225.72deg, #1dcbf9 0%, #1dcbf9 100%);
+}
+
+@keyframes selected {
+  0% {
+    background-position: 100% 0;
+  }
+
+  50% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.block-with-line {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.line {
+  flex-grow: 1;
+  height: 5px;
+  background-color: #33bee3;
+  border-radius: 5px;
+  margin: 0 5px;
+}

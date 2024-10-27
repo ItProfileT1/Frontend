@@ -1,0 +1,17 @@
+.skill-page {
+    display: flex;
+    align-items: flex-start; 
+    justify-content: center;
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1705px;
+}
+
+.skill-page-filler {
+    width: 250px;
+    padding: 25px;
+    border: 4px solid transparent;
+    margin: 0 20px;
+}
