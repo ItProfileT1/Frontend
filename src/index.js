@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Login from './auth/Login';
-import Profile from './profile/Profile';
+import MainPage from './main-page/MainPage';
 import SkillPage from './skill-map/SkillPage';
 import reportWebVitals from './reportWebVitals';
 
@@ -58,12 +58,14 @@ const skillsData = [
       ],
   }
 ];
+const userData = ['Harley', 'Quinn', 'SEO', 1, 2, null];
+
 
 root.render(
   <React.StrictMode>
     {/* <Login /> */}
-    {/* <Profile/> */}
-    <SkillPage user_data={['Harley', 'Quinn', 'SEO', 1, 2, null]} skills_data={skillsData} isAdmin={false} isEdit={false}/>
+    {/* <SkillPage user_data={userData} skills_data={skillsData} isAdmin={false} isEdit={false}/> */}
+    <MainPage user_data={userData} isAdmin={false}/>
   </React.StrictMode>
 );
 
