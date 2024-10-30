@@ -1,0 +1,54 @@
+.userBlock {
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    user-select: none;
+
+    padding: 25px;
+    width: 600px;
+    height: 815px;
+
+    font-size: 20px;
+}
+
+.userImageBlock {
+    display: flex;
+}
+
+.userPhoto {
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+    border: 4px #33bee3 solid;
+}
+
+.userImageBlock {
+    justify-content: space-between;
+}
+
+.userBlockLogo {
+    width: 200px;
+    height: 200px;
+}
+
+.userBlock span {
+    font-weight: 700;
+}
+
+.userBlockInfo {
+    padding: 20px 0;
+    font-size: 25px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.userBlockHeadline {
+    font-size: 25px;
+    padding: 10px 0;
+}
