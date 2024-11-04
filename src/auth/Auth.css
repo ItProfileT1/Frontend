@@ -1,15 +1,19 @@
-#login-panel {
+.login-panel {
     width: 410px;
     height: 425px;
     position: absolute;
     left: calc(50% - 240px);
     top: calc(50% - 230px);
-    padding: 10px 35px 25px;
-    background: #e1e4e5;
-    border-radius: 10px;
-    border: 5px #33bee3 solid; 
+    
 }
 
+.auth-panel-bg {
+    background: linear-gradient(225.72deg, #c3cbdc 0%, #edf1f4 100%) 0% 0% / 300% 100%;
+    border-radius: 10px;
+    border: 5px #33bee3 solid; 
+    animation: 5s ease 0s infinite normal none running selected;
+    padding: 10px 35px 25px;
+}
 
 #register-panel {
     width: 410px;
@@ -26,12 +30,9 @@
 .auth-info-text {
     text-align: center;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
+    user-select: none;
 }
-
-
-
-
 
 .auth-input-block {
     display: flex;
@@ -47,7 +48,7 @@
 .auth-input-icon {
     width: 48px;
     height: 48px;
-    border: 1px #33bee3 solid;
+    border: 1px #2c96b3 solid;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.30);
     display: flex;
@@ -64,12 +65,13 @@
     position: absolute;
     font-weight: 500;
     font-size: 14px;
-    color: #33bee3;
+    color: #2c96b3;
     top: -8px;
     left: 15px;
 }
 
-.auth-input-block input {
+.auth-input-block input,
+.register-profile-data input[type="date"] {
     position: absolute;
     left: 15px;
     height: 50px;
@@ -79,22 +81,18 @@
     border: 0px;
     font-weight: 400;
     font-size: 14px;
+    color: #2c96b3;
+
 }
 
 .auth-input-block input::placeholder {
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
-    color: #222222;
-}
-
-.auth-error {
-    margin-top: 40px;
-    text-align: center;
+    color: #2c96b3;
 }
 
 .auth-button {
-    font-weight: 600;
     font-size: 18px;
     border-radius: 4px;
     width: 410px;
@@ -103,6 +101,45 @@
     bottom: 35px;
 }
 
+.register-profile .skill-page {
+    width: 100%;
+}
 
 
+.register-profile-data {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 410px;
+    height: 540px;
+    padding: 20px;
+    margin: 0 20px;
+    border: 4px #33bee3 solid; 
+}
+
+.register-profile-data .auth-input-block,
+.register-profile-data .auth-button {
+    width: 380px;
+}
+
+.register-profile-data input[type="date"],
+.register-profile-data select {
+    height: 48px;
+    border: 2px #2c96b3 solid;
+    border-radius: 3px;
+    width: 278px;
+    position: unset;
+    padding: 0 15px;
+    cursor: text;
+}
+
+.register-profile-data select {
+    cursor: pointer;
+    font-size: 14px;
+    width: 310px;
+    color: #2c96b3;
+    font-weight: 400;
+    outline: none;
+    background: none;
+}
 

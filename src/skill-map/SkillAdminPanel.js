@@ -158,14 +158,14 @@ const RemoveCategory = ({ selectedCategory, setSelectedCategory, categories, han
     </div>
 );
 
-const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
+const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
     const [mode, setMode] = useState(null); // 'addSkill', 'removeSkill', 'addCategory', 'EditCategoty', 'removeCategory'
     const [newSkill, setNewSkill] = useState({ label: '', description: '', category: '' });
     const [selectedSkill, setSelectedSkill] = useState({ label: '', category: '', confirmLabel: '' });
     const [newCategory, setNewCategory] = useState('');
     const [selectedCategory, setSelectedCategory] = useState({ label: '', confirmLabel: '' });
 
-    const categories = skills_data.map(cat => cat.category);
+    const categories = skillsData.map(cat => cat.category);
 
     const resetFields = () => {
         setNewSkill({ label: '', description: '', category: '' });
@@ -201,7 +201,7 @@ const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
     }
 
     const handleAddSkill = async () => {
-        const updatedSkillsData = skills_data.map(cat => {
+        const updatedSkillsData = skillsData.map(cat => {
             if (cat.category.label === newSkill.category) {
                 return {
                     ...cat,
@@ -216,7 +216,7 @@ const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
     };
 
     const handleRemoveSkill = async () => {
-        const updatedSkillsData = skills_data.map(cat => {
+        const updatedSkillsData = skillsData.map(cat => {
             if (cat.category.label === selectedSkill.category) {
                 return {
                     ...cat,
@@ -231,14 +231,14 @@ const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
     };
     
     const handleAddCategory = async () => {
-        const updatedSkillsData = [...skills_data, { category: { id: Date.now(), label: newCategory }, skills: [] }];
+        const updatedSkillsData = [...skillsData, { category: { id: Date.now(), label: newCategory }, skills: [] }];
         
         // sendToServer('...', '...', updatedSkillsData); 
         updateSkillsData(updatedSkillsData);
     };
 
     const handleEditCategory = async () => {
-        const updatedSkillsData = skills_data.map(cat => {
+        const updatedSkillsData = skillsData.map(cat => {
             if (cat.category.label === selectedCategory.label) {
                 return { ...cat, category: { ...cat.category, label: selectedCategory.confirmLabel } };
             }
@@ -250,7 +250,7 @@ const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
     };
 
     const handleRemoveCategory = async () => {
-        const updatedSkillsData = skills_data.filter(cat => cat.category.label !== selectedCategory.label);
+        const updatedSkillsData = skillsData.filter(cat => cat.category.label !== selectedCategory.label);
         
         // sendToServer('...', '...', updatedSkillsData); 
         updateSkillsData(updatedSkillsData);
@@ -310,7 +310,7 @@ const SkillAdminPanel = ({ skills_data, setSkillsData, onClose }) => {
                 <RemoveSkill
                     selectedSkill={selectedSkill}
                     setSelectedSkill={setSelectedSkill}
-                    skillsData={skills_data}
+                    skillsData={skillsData}
                     handleRemoveSkill={handleRemoveSkill}
                     resetMode={resetMode}
                 />

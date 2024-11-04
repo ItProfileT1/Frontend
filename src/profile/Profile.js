@@ -8,8 +8,8 @@ const stylesMap = {
     "rating-page": ratingStyles,
 };
 
-const Profile = ({ user_data, display_page }) => {
-    if (!user_data) {
+const Profile = ({ userData, display_page }) => {
+    if (!userData) {
         return <></>;
     }
 
@@ -29,7 +29,7 @@ const Profile = ({ user_data, display_page }) => {
                     <img
                         className={styles.userPhoto}
                         src={
-                            user_data.photoPath ||
+                            userData.photoPath ||
                             `${process.env.PUBLIC_URL}/assets/alt-photo.jpg`
                         }
                         alt=""
@@ -37,47 +37,27 @@ const Profile = ({ user_data, display_page }) => {
                 </div>
                 <div className={styles.userBlockInfo}>
                     <div>
-                        <span>{user_data.name}</span>
+                        <span>{userData.name}</span>
                     </div>
                     <div>
-                        <span>{user_data.surname}</span>
+                        <span>{userData.surname}</span>
                     </div>
-                    <div>{user_data.position}</div>
+                    <div>{userData.position}</div>
                 </div>
 
-                {user_data.hardRank !== undefined &&
-                    user_data.softRank !== undefined && (
-                        <div className={styles.userBlockRank}>
-                            <div className="block-with-line">
-                                <div>Hard Skills</div>
-                                <div className="line"></div>
-                                <div>
-                                    Ранг <span>{user_data.hardRank}</span>
-                                </div>
-                            </div>
-                            <div className="block-with-line">
-                                <div>Soft Skills</div>
-                                <div className="line"></div>
-                                <div>
-                                    Ранг <span>{user_data.softRank}</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                {user_data.skill && (
+                {userData.skill && (
                     <div>
                         <div className={styles.userBlockHeadline}><span>Оцениваемый навык</span></div>
-                        <div>{user_data.skill}</div>
+                        <div>{userData.skill}</div>
                     </div>
                 )}
 
-                {user_data.skillDescription && (
+                {userData.skillDescription && (
                     <div>
                         <div className={styles.userBlockHeadline} style={{marginTop: "20px"}}><span>Описание навыка</span></div>
                         <textarea
                             readOnly
-                            value={user_data.skillDescription}
+                            value={userData.skillDescription}
                         ></textarea>
                     </div>
                 )}

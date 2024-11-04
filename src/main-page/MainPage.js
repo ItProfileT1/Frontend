@@ -1,14 +1,20 @@
-// import './SkillElement.css';
+import React, { useEffect } from "react";
 import './MainPage.css';
 import Profile from "../profile/Profile";
 import MainPageMenu from "./MainPageMenu";
 
-const MainPage = ({ user_data, isAdmin }) => {
-
+const MainPage = ({ onLogout, onPageChange, profileData, isAdmin, fetchUserProfile }) => {
+    useEffect(() => {
+        if (!profileData) {
+            fetchUserProfile();
+        }
+    }, [profileData, fetchUserProfile]);
+    
     return (
         <div className="main-page">
-            <Profile user_data={user_data} display_page={"main-page"} />
+            <Profile userData={profileData} display_page={"main-page"} />
             <MainPageMenu isAdmin={isAdmin} />
+            <button onClick={onLogout}>Выйти</button>
         </div>
     );
 };

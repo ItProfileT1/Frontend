@@ -3,7 +3,7 @@ import './SkillMap.css';
 import SkillContainer from './SkillContainer';
 import SkillControls from './SkillControls';
 
-const SkillMap = ({skills_data, onSkillSelect, isEdit}) => {
+const SkillMap = ({initialSkillsData, onSkillSelect, isEdit}) => {
     const [scale, setScale] = useState(1);
     const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
@@ -65,7 +65,7 @@ const SkillMap = ({skills_data, onSkillSelect, isEdit}) => {
                         cursor: isDragging ? 'grabbing' : 'grab' 
                     }}
                 >
-                    <SkillContainer skills_data={skills_data} onSkillSelect={onSkillSelect} isEdit={isEdit} />
+                    <SkillContainer skillsData={initialSkillsData} onSkillSelect={onSkillSelect} isEdit={isEdit} />
                 </div>
             </div>
 

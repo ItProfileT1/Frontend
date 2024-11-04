@@ -34,7 +34,7 @@ const RatingPage = ({ workers_data, isAdmin }) => {
                 isAdmin={isAdmin}
                 onWorkerSelect={handleWorkerSelect}
             />
-            <Profile user_data={selectedWorker} display_page={"rating-page"} />
+            <Profile userData={selectedWorker} display_page={"rating-page"} />
         </div>
     );
 };

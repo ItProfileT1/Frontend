@@ -25,6 +25,7 @@
 .skill-info-close>img {
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 .skill-info-name {

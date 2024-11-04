@@ -1,12 +1,19 @@
-import './SkillInfo.css';
+import "./SkillInfo.css";
 
-const SkillInfo = ({ id, label, description, progress, onClose, isAdmin }) => {
-    const handleClick = () => {
-        
-    };
-
+const SkillInfo = ({
+    id,
+    label,
+    description,
+    progress,
+    onClose,
+    isAdmin,
+    isProfile,
+    isSelected,
+    addSkillId,
+}) => {
+    const handleClick = () => { addSkillId(id) };
     const renderProgress = () => {
-        if (progress !== null) {
+        if (progress !== undefined) {
             return (
                 <div className="block-with-line">
                     <div style={{ fontWeight: 100 }}>Текущий уровень</div>
@@ -21,36 +28,39 @@ const SkillInfo = ({ id, label, description, progress, onClose, isAdmin }) => {
 
     const renderButtonLabel = () => {
         if (isAdmin) {
-            return 'Провести оценку';
+            return "Провести оценку";
         }
-        return progress !== null ? 'Поднять' : 'Оценить';
+        if (isProfile) {
+            return isSelected ? 'Удалить' : 'Добавить';
+        }
+        return progress !== null ? "Поднять" : "Оценить";
     };
 
     return (
         <div className="skill-info">
             <div>
                 <div className="skill-info-close">
-                    <img 
-                        src={`${process.env.PUBLIC_URL}/assets/close.svg`} 
-                        alt="Close" 
-                        onClick={onClose} 
+                    <img
+                        src={`${process.env.PUBLIC_URL}/assets/close.svg`}
+                        alt="Close"
+                        onClick={onClose}
                     />
                 </div>
                 <div className="skill-info-name">{label}</div>
-                <textarea className="skill-info-description" value={description || ''} readOnly></textarea>
+                <textarea
+                    className="skill-info-description"
+                    value={description || ""}
+                    readOnly
+                ></textarea>
                 {renderProgress()}
             </div>
             <div>
-                <button 
-                    className="blue-button" 
-                    onClick={handleClick}
-                >
+                <button className="blue-button" onClick={handleClick}>
                     {renderButtonLabel()}
                 </button>
             </div>
         </div>
     );
 };
-
 
 export default SkillInfo;
