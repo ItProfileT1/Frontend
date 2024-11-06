@@ -3,8 +3,8 @@ import Profile from "../profile/Profile";
 import WorkersList from "./WorkersList";
 import './RatingPage.css';
 
-const RatingPage = ({ workers_data, isAdmin }) => {
-    const workers = workers_data.map(
+const RatingPage = ({ workersData, isAdmin }) => {
+    const workers = workersData.map(
         ({ id, name, surname, skill, averageScore }) => ({
             id,
             name,
@@ -17,24 +17,24 @@ const RatingPage = ({ workers_data, isAdmin }) => {
     const [selectedWorker, setSelectedWorker] = useState(null);
 
     const handleWorkerSelect = (workerId) => {
-        const selected = workers_data.find((worker) => worker.id === workerId);
+        const selected = workersData.find((worker) => worker.id === workerId);
         setSelectedWorker(selected);
     };
 
     useEffect(() => {
-        if (workers_data.length > 0) {
-            setSelectedWorker(workers_data[0]);
+        if (workersData.length > 0) {
+            setSelectedWorker(workersData[0]);
         }
-    }, [workers_data]);
+    }, [workersData]);
 
     return (
         <div className="rating-page">
+            <Profile userData={selectedWorker} display_page={"rating-page"} />
             <WorkersList
                 workers={workers}
                 isAdmin={isAdmin}
                 onWorkerSelect={handleWorkerSelect}
             />
-            <Profile userData={selectedWorker} display_page={"rating-page"} />
         </div>
     );
 };

@@ -18,24 +18,39 @@ const ButtonRow = ({ buttons, handleClick }) => (
     </div>
 );
 
-const MainPageMenu = ({ isAdmin }) => {
+const MainPageMenu = ({ onPageChange, onLogout }) => {
+    const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
+
     const userButtons = [
-        { label: "Посмотреть карту<br/>Хард скиллов", action: "0" },
-        { label: "Посмотреть карту<br/>Софт скиллов", action: "1" },
-        { label: "Перейти к оценке", action: "2" },
+        { label: "Посмотреть карту<br/>Хард скиллов", action: 1 },
+        { label: "Посмотреть карту<br/>Софт скиллов", action: 2 },
+        { label: "Перейти к оценке", action: 3 },
+        { label: "Выйти", action: 0}
     ];
 
     const adminButtons = [
-        { label: "Изменить карту<br/>Хард скиллов", action: "3" },
-        { label: "Изменить карту<br/>Софт скиллов", action: "4" },
-        { label: "Просмотр оценок", action: "5" },
-        { label: "Создать пользователя", action: "6" },
+        { label: "Редактировать должности", action: 8},
+        { label: "Создать пользователя", action: 7 },
+        { label: "Изменить карту<br/>Хард скиллов", action: 4 },
+        { label: "Изменить карту<br/>Софт скиллов", action: 5 },
+        { label: "Список сотрудников<br/>на оценку", action: 6 },
+        { label: "Просмотр оценок", action: 9 },
+        { label: "Выйти", action: 0}
     ];
 
     const buttonsToDisplay = isAdmin ? adminButtons : userButtons;
 
     const handleClick = (action) => {
-        // console.log(action);
+        switch(action) {
+            case 0:
+                onLogout();
+                return;
+            case 7:
+                onPageChange("register");
+                return;
+            default:
+                console.log(action);
+        }
     };
 
     const buttonRows = [];
@@ -52,7 +67,7 @@ const MainPageMenu = ({ isAdmin }) => {
 
     return (
         <div className="main-page-menu">
-            <div>Меню</div>
+            <div>{isAdmin ? "Меню администратора" : "Меню пользователя"}</div>
             {buttonRows}
         </div>
     );

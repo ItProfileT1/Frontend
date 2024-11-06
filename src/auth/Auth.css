@@ -1,10 +1,28 @@
-.login-panel {
+.auth-panel {
     width: 410px;
     height: 425px;
     position: absolute;
     left: calc(50% - 240px);
     top: calc(50% - 230px);
-    
+}
+
+.auth-admin-panel {
+    height: 505px;
+    top: calc(50% - 270px);
+}
+ 
+.auth-close {
+    width: 410px;
+    height: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+    position: absolute;
+}
+
+.auth-close>img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
 }
 
 .auth-panel-bg {
@@ -13,18 +31,6 @@
     border: 5px #33bee3 solid; 
     animation: 5s ease 0s infinite normal none running selected;
     padding: 10px 35px 25px;
-}
-
-#register-panel {
-    width: 410px;
-    height: 505px;
-    position: absolute;
-    left: calc(50% - 240px);
-    top: calc(50% - 270px);
-    padding: 10px 35px 25px;
-    background: #1f2324;
-    border-radius: 10px;
-    border: 5px #33bee3 solid; 
 }
 
 .auth-info-text {
@@ -137,6 +143,22 @@
     cursor: pointer;
     font-size: 14px;
     width: 310px;
+    color: #2c96b3;
+    font-weight: 400;
+    outline: none;
+    background: none;
+}
+
+.auth-admin-panel select {
+    height: 48px;
+    border: 2px #2c96b3 solid;
+    border-radius: 3px;
+    width: 350px;
+    position: unset;
+    padding: 0 8px;
+    cursor: pointer;
+    font-size: 14px;
+    /* width: 310px; */
     color: #2c96b3;
     font-weight: 400;
     outline: none;

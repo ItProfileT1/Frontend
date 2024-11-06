@@ -3,7 +3,7 @@ import './MainPage.css';
 import Profile from "../profile/Profile";
 import MainPageMenu from "./MainPageMenu";
 
-const MainPage = ({ onLogout, onPageChange, profileData, isAdmin, fetchUserProfile }) => {
+const MainPage = ({ onLogout, onPageChange, profileData, fetchUserProfile }) => {
     useEffect(() => {
         if (!profileData) {
             fetchUserProfile();
@@ -13,8 +13,7 @@ const MainPage = ({ onLogout, onPageChange, profileData, isAdmin, fetchUserProfi
     return (
         <div className="main-page">
             <Profile userData={profileData} display_page={"main-page"} />
-            <MainPageMenu isAdmin={isAdmin} />
-            <button onClick={onLogout}>Выйти</button>
+            <MainPageMenu onPageChange={onPageChange} onLogout={onLogout}/>
         </div>
     );
 };

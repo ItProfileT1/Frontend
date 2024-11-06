@@ -3,7 +3,7 @@ import './Auth.css';
 import InputBlock from './InputBlock';
 import SkillPage from "../skill-map/SkillPage";
 
-const RegisterProfile = ({onLogout, onPageChange}) => {
+const RegisterProfile = ({onPageChange}) => {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [patronymic, setPatronymic] = useState('');

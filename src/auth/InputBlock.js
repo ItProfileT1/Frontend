@@ -1,4 +1,4 @@
-const InputBlock = ({ id, label, value, onChange }) => {
+const InputBlock = ({ id, label, value, onChange, data }) => {
     const iconPaths = {
         name: "login",
         surname: "login",
@@ -8,6 +8,7 @@ const InputBlock = ({ id, label, value, onChange }) => {
         city: "city",
         date: "date",
         gender: "gender",
+        job: "job",
     };
 
     const handleFocus = () =>
@@ -41,6 +42,23 @@ const InputBlock = ({ id, label, value, onChange }) => {
                     <option value="Женский">Женский</option>
                 </select>
             );
+        }
+
+        if (id === "job") {
+            return (
+                <select 
+                    id={id}
+                    onChange={onChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                >
+                    {data.map((elem) => (
+                        <option key={elem.id} value={elem.id}>
+                            {elem.name}
+                        </option>
+                    ))}
+                </select>
+            )
         }
 
         return (
@@ -78,7 +96,7 @@ const InputBlock = ({ id, label, value, onChange }) => {
             </div>
             <div className="auth-input-static">
                 {renderInputField()}
-                {id !== "date" && id !== "gender" && (
+                {id !== "date" && id !== "gender" && id !== "job" && (
                     <img
                         src={`${process.env.PUBLIC_URL}/assets/auth/${id}-static.svg`}
                         alt=""
