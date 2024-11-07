@@ -14,14 +14,15 @@ const SkillElement = ({ id, label, progress, description, onSkillClick, isEdit }
             />
         ));
     };
-
+    
+    const isRegister = localStorage.getItem("currentPage") === "register-profile";
     return (
         <div 
             className="blue-button skill-element" 
             id={id} 
             onClick={handleClick}
         >
-            {!isEdit && <div className="skill-level-container">{renderSkillLevels()}</div>}
+            {!isEdit && !isRegister && <div className="skill-level-container">{renderSkillLevels()}</div>}
             <div className="skill-label">{label}</div>
         </div>
     );

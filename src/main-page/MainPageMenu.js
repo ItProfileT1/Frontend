@@ -18,7 +18,7 @@ const ButtonRow = ({ buttons, handleClick }) => (
     </div>
 );
 
-const MainPageMenu = ({ onPageChange, onLogout }) => {
+const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
     const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
 
     const userButtons = [
@@ -40,10 +40,26 @@ const MainPageMenu = ({ onPageChange, onLogout }) => {
 
     const buttonsToDisplay = isAdmin ? adminButtons : userButtons;
 
-    const handleClick = (action) => {
+    const handleClick = async (action) => {
         switch(action) {
             case 0:
                 onLogout();
+                return;
+            case 4:
+                var data = {
+                    initialSkillsData: await fetchSkills("Hard"),
+                    pageToRender: "edit",
+                    typeId: "Hard",
+                };
+                onPageChange("skill", data)
+                return;
+            case 5:
+                var data = {
+                    initialSkillsData: await fetchSkills("Soft"),
+                    pageToRender: "edit",
+                    typeId: "Soft",
+                };
+                onPageChange("skill", data)
                 return;
             case 7:
                 onPageChange("register");

@@ -1,4 +1,6 @@
-const InputBlock = ({ id, label, value, onChange, data }) => {
+import React from "react";
+
+const InputBlock = ({ id, label, value, onChange, data }) => { 
     const iconPaths = {
         name: "login",
         surname: "login",
@@ -6,9 +8,10 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
         login: "login",
         password: "password",
         city: "city",
-        date: "date",
-        gender: "gender",
+        birthday: "date",
+        sex: "gender",
         job: "job",
+        skills: "skills",
     };
 
     const handleFocus = () =>
@@ -17,10 +20,11 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
         (document.getElementById(`${id}-input-block`).style.opacity = 0.7);
 
     const renderInputField = () => {
-        if (id === "date") {
+        if (id === "birthday") {
             return (
                 <input
                     id={id}
+                    name={id}
                     placeholder="дата рождения"
                     type="date"
                     onChange={onChange}
@@ -30,10 +34,11 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
             );
         }
 
-        if (id === "gender") {
+        if (id === "sex") {
             return (
                 <select
                     id={id}
+                    name={id}
                     onChange={onChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
@@ -46,7 +51,7 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
 
         if (id === "job") {
             return (
-                <select 
+                <select
                     id={id}
                     onChange={onChange}
                     onFocus={handleFocus}
@@ -58,7 +63,22 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
                         </option>
                     ))}
                 </select>
-            )
+            );
+        }
+
+        if (id === "skills") {
+            return (
+                <select
+                    id={id}
+                    name={id}
+                    onChange={onChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                >
+                    <option value="Hard">Отобразить хард навыки</option>
+                    <option value="Soft">Отобразить софт навыки</option>
+                </select>
+            );
         }
 
         return (
@@ -89,14 +109,14 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
             <div className="auth-input-icon">
                 <img
                     src={`${process.env.PUBLIC_URL}/assets/auth/${
-                        iconPaths[id] || "default"
+                        iconPaths[id] 
                     }.svg`}
                     alt=""
                 />
             </div>
             <div className="auth-input-static">
                 {renderInputField()}
-                {id !== "date" && id !== "gender" && id !== "job" && (
+                {id !== "birthday" && id !== "sex" && id !== "job" && id !== "skills" && (
                     <img
                         src={`${process.env.PUBLIC_URL}/assets/auth/${id}-static.svg`}
                         alt=""

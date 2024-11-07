@@ -3,15 +3,18 @@ import './Auth.css';
 import InputBlock from './InputBlock';
 import SkillPage from "../skill-map/SkillPage";
 
-const RegisterProfile = ({onPageChange}) => {
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [patronymic, setPatronymic] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [city, setCity] = useState('');
-    const [gender, setGender] = useState('');
+const RegisterProfile = ({ onPageChange, fetchSkills }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        surname: '',
+        patronymic: '',
+        birthday: '',
+        city: '',
+        sex: '',
+    });
     const [skillsData, setSkillsData] = useState(null);
     const [selectedSkills, setSelectedSkills] = useState([]);
+    const [skillType, setSkillType] = useState("Hard");
 
     const addSkillId = (skillId) => {
         setSelectedSkills((prevSelectedSkills) =>
@@ -22,10 +25,10 @@ const RegisterProfile = ({onPageChange}) => {
     };
 
     const handleClick = async () => {
-        const data = { name: name, surname: surname, patronymic: patronymic, birthday: birthday, city: city, sex: gender, skillsIds: selectedSkills};
+        const data = { ...formData, skillsIds: selectedSkills };
         const url = 'http://localhost:8080/api/v1/specialists/profile';
         const authToken = localStorage.getItem("authToken");
-        
+
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -35,10 +38,11 @@ const RegisterProfile = ({onPageChange}) => {
                 },
                 body: JSON.stringify(data),
             });
-    
+
             if (response.ok) {
                 onPageChange('main');
             } else {
+                console.log(data)
                 console.error("Ошибка при создании профиля");
             }
 
@@ -47,51 +51,36 @@ const RegisterProfile = ({onPageChange}) => {
         }
     };
 
-
     useEffect(() => {
-        const fetchSkills = async () => {
-            const url = 'http://localhost:8080/api/v1/skills';
-            const authToken = localStorage.getItem("authToken");
-            try {
-                const response = await fetch(url, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Ошибка при загрузке навыков');
-                }
-                const data = await response.json();
-                setSkillsData(data);
-            } catch (error) {
-                console.error("Ошибка при получении навыков:", error);
-            }
+        const loadSkillsData = async () => {
+            const data = await fetchSkills(skillType);
+            setSkillsData(data);
         };
+        loadSkillsData();
+    }, [skillType, fetchSkills]);
 
-        fetchSkills();
-    }, []);
-
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+    };
+    
     return (
         <div className="register-profile">
-            
-            {skillsData ? ( 
-            <SkillPage pageToRender="profile" initialSkillsData={skillsData} selectedSkills={selectedSkills} addSkillId={addSkillId}>
-                <div className="register-profile-data auth-panel-bg" style={{display: 'flex', flexDirection:'column'}}>
-                    <InputBlock id="name" label="Имя" value={name} onChange={(e) => setName(e.target.value)} />
-                    <InputBlock id="surname" label="Фамилия" value={surname} onChange={(e) => setSurname(e.target.value)} />
-                    <InputBlock id="patronymic" label="Отчество" value={patronymic} onChange={(e) => setPatronymic(e.target.value)} />
-                    <InputBlock id="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-                    <InputBlock id="city" label="Город" value={city} onChange={(e) => setCity(e.target.value)} />
-                    <InputBlock id="gender" value={gender} onChange={(e) => setGender(e.target.value)} />
-                    <button type="button" className="blue-button auth-button" onClick={handleClick}>Подтвердить</button>
-                </div>
-            </SkillPage>
-            ) : (
-                <></>
-            )}
+            <div className="register-profile-data auth-panel-bg" style={{ display: 'flex', flexDirection: 'column' }}>
+                <InputBlock id="name" label="Имя" value={formData.name} onChange={handleChange} />
+                <InputBlock id="surname" label="Фамилия" value={formData.surname} onChange={handleChange} />
+                <InputBlock id="patronymic" label="Отчество" value={formData.patronymic} onChange={handleChange} />
+                <InputBlock id="birthday" name="birthday" value={formData.birthday} onChange={handleChange} />
+                <InputBlock id="city" label="Город" value={formData.city} onChange={handleChange} />
+                <InputBlock id="sex" value={formData.sex} onChange={handleChange} />
+                <InputBlock id="skills" value={skillType} onChange={(e) => setSkillType(e.target.value)} />
+                <button type="button" className="blue-button auth-button" onClick={handleClick}>Подтвердить</button>
+            </div>
+            {skillsData ? (
+                <SkillPage pageToRender="profile" initialSkillsData={skillsData} selectedSkills={selectedSkills} addSkillId={addSkillId} />
+            ) : null}
         </div>
     );
+};
 
-}
 export default RegisterProfile;

@@ -116,24 +116,25 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 410px;
-    height: 540px;
+    width: 420px;
+    height: 700px;
     padding: 20px;
     margin: 0 20px;
     border: 4px #33bee3 solid; 
+    zoom: 0.92;
 }
 
 .register-profile-data .auth-input-block,
 .register-profile-data .auth-button {
-    width: 380px;
+    width: 420px;
 }
 
 .register-profile-data input[type="date"],
 .register-profile-data select {
-    height: 48px;
-    border: 2px #2c96b3 solid;
+    height: 46px;
+    border: 3px #2c96b3 solid;
     border-radius: 3px;
-    width: 278px;
+    width: 316px;
     position: unset;
     padding: 0 15px;
     cursor: text;
@@ -141,8 +142,9 @@
 
 .register-profile-data select {
     cursor: pointer;
+    height:50px;
     font-size: 14px;
-    width: 310px;
+    width: 350px;
     color: #2c96b3;
     font-weight: 400;
     outline: none;

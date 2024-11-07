@@ -4,163 +4,151 @@ import SkillMap from "./SkillMap";
 import SkillInfo from "./SkillInfo";
 import SkillAdminPanel from "./SkillAdminPanel";
 import SkillEdit from "./SkillEdit";
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 
 const SkillPage = ({
+    onPageChange,
     userData,
+    fetchSkills,
     initialSkillsData,
-    isAdmin,
-    isEdit,
     pageToRender,
-    children,
     selectedSkills,
-    addSkillId
+    addSkillId,
+    typeId,
 }) => {
     const [skillsData, setSkillsData] = useState([]);
     const [selectedSkill, setSelectedSkill] = useState({
         id: "",
-        label: "",
+        name: "",
         description: "",
         progress: "",
     });
-    const [isSkillInfoVisible, setSkillInfoVisible] = useState(false);
+    const [isSkillInfoShown, setSkillInfoShown] = useState(false);
 
     useEffect(() => {
-        const skillsData = initialSkillsData;
-        setSkillsData(skillsData);
-    }, []);
+        if (initialSkillsData) {
+            setSkillsData(initialSkillsData);
+        }
+    }, [initialSkillsData]);
 
-    const handleSkillSelect = (id, label, description, progress) => {
-        setSelectedSkill({ id, label, description, progress });
-        setSkillInfoVisible(true);
+    const handleSkillSelect = (id, name, description, progress) => {
+        setSelectedSkill({ id, name, description, progress });
+        setSkillInfoShown(true);
     };
 
-    const handleSkillEditClick = (id, label, description) => {
-        setSelectedSkill({ id, label, description });
-        setSkillInfoVisible(true);
+    const handleSkillEditClick = (id, name, description) => {
+        setSelectedSkill({ id, name, description });
+        setSkillInfoShown(true);
     };
 
-    const handleSkillSave = (id, newLabel, newDescription) => {
-        const updatedSkillsData = skillsData.map((category) => ({
-            ...category,
-            skills: category.skills.map((skill) =>
-                skill.id === id
-                    ? { ...skill, label: newLabel, description: newDescription }
-                    : skill
-            ),
-        }));
-        setSkillsData(updatedSkillsData);
-        setSkillInfoVisible(false);
+    const handleSkillSave = async (data) => {
+        setSkillInfoShown(false);
+        return console.log(data);
+        const url = `http://localhost:8080/api/v1/edit-skill`;
+        const authToken = localStorage.getItem("authToken");
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const updatedSkillsData = await fetchSkills(typeId); 
+                setSkillsData(updatedSkillsData); 
+            } else {
+                throw new Error(`Ошибка запроса: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Произошла ошибка при запросе:", error); 
+        }
+
+        setSkillInfoShown(false);
     };
 
-    const handleCloseInfo = () => {
-        setSkillInfoVisible(false);
-    };
+    const handleCloseInfo = () => setSkillInfoShown(false);
 
-    const renderPage = ( pageToRender ) => {
-        switch (pageToRender) {
+    const EditView = () => (
+        <>
+            <SkillAdminPanel
+                fetchSkills={fetchSkills}
+                onPageChange={onPageChange}
+                skillsData={skillsData}
+                setSkillsData={setSkillsData}
+                onClose={handleCloseInfo}
+                typeId={typeId}
+            />
+             <SkillMap
+                initialSkillsData={skillsData}
+                onSkillSelect={handleSkillEditClick}
+                isEdit={true}
+            />
+            {isSkillInfoShown && (
+                <SkillEdit
+                    onClose={handleCloseInfo}
+                    onSave={handleSkillSave}
+                    id={selectedSkill.id}
+                    name={selectedSkill.name}
+                    description={selectedSkill.description}
+                />
+            )}
+            <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
+        </>
+    );
+
+    const ProfileView = () => (
+        <>
+            <SkillMap
+                initialSkillsData={initialSkillsData}
+                onSkillSelect={handleSkillSelect}
+            />
+            {isSkillInfoShown && (
+                <SkillInfo
+                    onClose={handleCloseInfo}
+                    id={selectedSkill.id}
+                    name={selectedSkill.name}
+                    description={selectedSkill.description}
+                    isSelected={selectedSkills?.includes(selectedSkill.id)}
+                    addSkillId={addSkillId}
+                />
+            )}
+            <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
+        </>
+    );
+
+    const SkillsView = () => (
+        <>
+            <Profile userData={userData} display_page="skill-page" />
+            <SkillMap
+                initialSkillsData={initialSkillsData}
+                onSkillSelect={handleSkillSelect}
+            />
+            {isSkillInfoShown && (
+                <SkillInfo
+                    onClose={handleCloseInfo}
+                    id={selectedSkill.id}
+                    name={selectedSkill.name}
+                    description={selectedSkill.description}
+                    progress={selectedSkill.progress}
+                />
+            )}
+            <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
+        </>
+    );
+
+    const renderPage = (page) => {
+        switch (page) {
             case "edit":
-                return (
-                    <>
-                        <SkillAdminPanel
-                            initialSkillsData={skillsData}
-                            setSkillsData={setSkillsData}
-                            onClose={handleCloseInfo}
-                        />
-                        <SkillMap
-                            initialSkillsData={skillsData}
-                            onSkillSelect={handleSkillEditClick}
-                            isEdit={isEdit}
-                        />
-                        <div
-                            style={{
-                                display: isSkillInfoVisible ? "block" : "none",
-                            }}
-                        >
-                            <SkillEdit
-                                onClose={handleCloseInfo}
-                                onSave={handleSkillSave}
-                                id={selectedSkill.id}
-                                label={selectedSkill.label}
-                                description={selectedSkill.description}
-                                progress={selectedSkill.progress}
-                                isAdmin={isAdmin}
-                            />
-                        </div>
-                        <div
-                            className="skill-page-filler"
-                            style={{
-                                display: isSkillInfoVisible ? "none" : "block",
-                            }}
-                        ></div>
-                    </>
-                );
+                return <EditView />;
             case "profile":
-                return (
-                    <>
-                        {children}
-                        <SkillMap
-                            initialSkillsData={initialSkillsData}
-                            onSkillSelect={handleSkillSelect}
-                        />
-                        <div
-                            style={{
-                                display: isSkillInfoVisible ? "block" : "none",
-                            }}
-                        >
-                            <SkillInfo
-                                onClose={handleCloseInfo}
-                                id={selectedSkill.id}
-                                label={selectedSkill.label}
-                                description={selectedSkill.description}
-                                isSelected={selectedSkills.includes(selectedSkill.id)}
-                                addSkillId={addSkillId}
-                                isProfile={true}
-                            />
-                        </div>
-                        <div
-                            className="skill-page-filler"
-                            style={{
-                                display: isSkillInfoVisible ? "none" : "block",
-                            }}
-                        ></div>
-                    </>
-                );
+                return <ProfileView />;
             case "skills":
-                return (
-                    <>
-                        <Profile
-                            userData={userData}
-                            display_page={"skill-page"}
-                        />
-                        <SkillMap
-                            initialSkillsData={initialSkillsData}
-                            onSkillSelect={handleSkillSelect}
-                        />
-                        <div
-                            style={{
-                                display: isSkillInfoVisible ? "block" : "none",
-                            }}
-                        >
-                            <SkillInfo
-                                onClose={handleCloseInfo}
-                                id={selectedSkill.id}
-                                label={selectedSkill.label}
-                                description={selectedSkill.description}
-                                progress={selectedSkill.progress}
-                                isAdmin={isAdmin}
-                            />
-                        </div>
-                        <div
-                            className="skill-page-filler"
-                            style={{
-                                display: isSkillInfoVisible ? "none" : "block",
-                            }}
-                        ></div>
-                    </>
-                );
+                return <SkillsView />;
             default:
-                return <></>;
+                return null;
         }
     };
 

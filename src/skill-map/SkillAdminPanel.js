@@ -1,31 +1,47 @@
-import './SkillAdminPanel.css';
-import React, { useState, useEffect } from 'react';
+import "./SkillAdminPanel.css";
+import React, { useState, useEffect } from "react";
 
-const AddSkill = ({ newSkill, setNewSkill, categories, handleAddSkill, resetMode }) => (
+const AddSkill = ({
+    newSkill,
+    setNewSkill,
+    categories,
+    handleAddSkill,
+    resetMode,
+}) => (
     <div>
         <input
             type="text"
             placeholder="Название навыка"
-            value={newSkill.label}
-            onChange={(e) => setNewSkill({ ...newSkill, label: e.target.value })}
+            value={newSkill.name}
+            onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
         />
         <textarea
             placeholder="Описание"
             value={newSkill.description}
-            onChange={(e) => setNewSkill({ ...newSkill, description: e.target.value })}
+            onChange={(e) =>
+                setNewSkill({ ...newSkill, description: e.target.value })
+            }
         />
-        <select onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}>
+        <select
+            onChange={(e) =>
+                setNewSkill({ ...newSkill, categoryId: e.target.value })
+            }
+        >
             <option value="">Выберите категорию</option>
             {categories.map((cat) => (
-                <option key={cat.id} value={cat.label}>{cat.label}</option>
+                <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                </option>
             ))}
         </select>
         <div className="skill-admin-panel-buttons">
-            <button className="blue-button" onClick={resetMode}>Назад</button>
-            <button 
-                className="blue-button" 
+            <button className="blue-button" onClick={resetMode}>
+                Назад
+            </button>
+            <button
+                className="blue-button"
                 onClick={handleAddSkill}
-                disabled={!newSkill.label || !newSkill.category}
+                disabled={!newSkill.name || !newSkill.categoryId}
             >
                 Добавить
             </button>
@@ -33,39 +49,86 @@ const AddSkill = ({ newSkill, setNewSkill, categories, handleAddSkill, resetMode
     </div>
 );
 
-const RemoveSkill = ({ selectedSkill, setSelectedSkill, skillsData, handleRemoveSkill, resetMode }) => (
+const RemoveSkill = ({
+    selectedSkill,
+    setSelectedSkill,
+    skillsData,
+    handleRemoveSkill,
+    resetMode,
+}) => (
     <div>
-        <select onChange={(e) => {
-            const selectedCategory = skillsData.find(cat => cat.category.label === e.target.value);
-            setSelectedSkill({ ...selectedSkill, category: selectedCategory?.category.label, label: '', confirmLabel: '' });
-        }}>
+        <select
+            onChange={(e) => {
+                const selectedCategory = skillsData.find(
+                    (cat) =>
+                        cat.categoryResponse.id === parseInt(e.target.value)
+                );
+                setSelectedSkill({
+                    ...selectedSkill,
+                    categoryId: selectedCategory?.categoryResponse.id,
+                    name: "",
+                    confirmName: "",
+                });
+            }}
+        >
             <option value="">Выберите категорию</option>
             {skillsData.map((cat) => (
-                <option key={cat.category.id} value={cat.category.label}>{cat.category.label}</option>
+                <option
+                    key={cat.categoryResponse.id}
+                    value={cat.categoryResponse.id}
+                >
+                    {cat.categoryResponse.name}
+                </option>
             ))}
         </select>
-        <select onChange={(e) => setSelectedSkill({ ...selectedSkill, label: e.target.value, confirmLabel: '' })}>
+        <select
+            onChange={(e) =>
+                setSelectedSkill({
+                    ...selectedSkill,
+                    name: e.target.value,
+                    confirmName: "",
+                })
+            }
+        >
             <option value="">Выберите навык</option>
-            {selectedSkill.category && skillsData.find(cat => cat.category.label === selectedSkill.category)?.skills.map(skill => (
-                <option key={skill.id} value={skill.label}>{skill.label}</option>
-            ))}
+            {selectedSkill.categoryId &&
+                skillsData
+                    .find(
+                        (cat) =>
+                            cat.categoryResponse.id === selectedSkill.categoryId
+                    )
+                    ?.skillResponses.map((skill) => (
+                        <option key={skill.id} value={skill.name}>
+                            {skill.name}
+                        </option>
+                    ))}
         </select>
-        {selectedSkill.label && (
+        {selectedSkill.name && (
             <div>
                 <input
                     type="text"
-                    placeholder="Введите название для подтверждения"
-                    onChange={(e) => setSelectedSkill({ ...selectedSkill, confirmLabel: e.target.value })}
+                    placeholder="Подтвердите название"
+                    onChange={(e) =>
+                        setSelectedSkill({
+                            ...selectedSkill,
+                            confirmName: e.target.value,
+                        })
+                    }
                 />
             </div>
         )}
         <div className="skill-admin-panel-buttons">
-            <button className="blue-button" onClick={resetMode}>Назад</button>
-            {selectedSkill.label && (
+            <button className="blue-button" onClick={resetMode}>
+                Назад
+            </button>
+            {selectedSkill.name && (
                 <button
                     className="blue-button"
                     onClick={handleRemoveSkill}
-                    disabled={selectedSkill.label !== selectedSkill.confirmLabel || selectedSkill.confirmLabel === ''}
+                    disabled={
+                        selectedSkill.name !== selectedSkill.confirmName ||
+                        selectedSkill.confirmName === ""
+                    }
                 >
                     Удалить
                 </button>
@@ -74,7 +137,12 @@ const RemoveSkill = ({ selectedSkill, setSelectedSkill, skillsData, handleRemove
     </div>
 );
 
-const AddCategory = ({ newCategory, setNewCategory, handleAddCategory, resetMode }) => (
+const AddCategory = ({
+    newCategory,
+    setNewCategory,
+    handleAddCategory,
+    resetMode,
+}) => (
     <div>
         <input
             type="text"
@@ -83,40 +151,70 @@ const AddCategory = ({ newCategory, setNewCategory, handleAddCategory, resetMode
             onChange={(e) => setNewCategory(e.target.value)}
         />
         <div className="skill-admin-panel-buttons">
-            <button className="blue-button" onClick={resetMode}>Назад</button>
-            <button className="blue-button" onClick={handleAddCategory}>Добавить</button>
+            <button className="blue-button" onClick={resetMode}>
+                Назад
+            </button>
+            <button className="blue-button" onClick={handleAddCategory}>
+                Добавить
+            </button>
         </div>
     </div>
 );
 
-const EditCategory = ({ selectedCategory, setSelectedCategory, categories, handleEditCategory, resetMode }) => (
+const EditCategory = ({
+    selectedCategory,
+    setSelectedCategory,
+    categories,
+    handleEditCategory,
+    resetMode,
+}) => (
     <div>
-        <select onChange={(e) => {
-            const selectedCategory = categories.find(cat => cat.label === e.target.value);
-            setSelectedCategory({ label: selectedCategory?.label, confirmLabel: selectedCategory?.label });
-        }}>
+        <select
+            onChange={(e) => {
+                const selectedCategory = categories.find(
+                    (cat) => cat.name === e.target.value
+                );
+                setSelectedCategory({
+                    name: selectedCategory?.name,
+                    confirmName: selectedCategory?.name,
+                });
+            }}
+        >
             <option value="">Выберите категорию</option>
             {categories.map((cat) => (
-                <option key={cat.id} value={cat.label}>{cat.label}</option>
+                <option key={cat.id} value={cat.name}>
+                    {cat.name}
+                </option>
             ))}
         </select>
-        {selectedCategory.label && (
+        {selectedCategory.name && (
             <div>
                 <input
                     type="text"
                     placeholder="Редактировать название категории"
-                    value={selectedCategory.confirmLabel}
-                    onChange={(e) => setSelectedCategory({ ...selectedCategory, confirmLabel: e.target.value })}
+                    value={selectedCategory.confirmName}
+                    onChange={(e) =>
+                        setSelectedCategory({
+                            ...selectedCategory,
+                            confirmName: e.target.value,
+                        })
+                    }
                 />
             </div>
         )}
         <div className="skill-admin-panel-buttons">
-            <button className="blue-button" onClick={resetMode}>Назад</button>
-            {selectedCategory.label && (
-                <button 
-                    className="blue-button" 
+            <button className="blue-button" onClick={resetMode}>
+                Назад
+            </button>
+            {selectedCategory.name && (
+                <button
+                    className="blue-button"
                     onClick={handleEditCategory}
-                    disabled={selectedCategory.label === selectedCategory.confirmLabel || selectedCategory.confirmLabel === ''}
+                    disabled={
+                        selectedCategory.name ===
+                            selectedCategory.confirmName ||
+                        selectedCategory.confirmName === ""
+                    }
                 >
                     Подтвердить
                 </button>
@@ -125,31 +223,53 @@ const EditCategory = ({ selectedCategory, setSelectedCategory, categories, handl
     </div>
 );
 
-
-const RemoveCategory = ({ selectedCategory, setSelectedCategory, categories, handleRemoveCategory, resetMode }) => (
+const RemoveCategory = ({
+    selectedCategory,
+    setSelectedCategory,
+    categories,
+    handleRemoveCategory,
+    resetMode,
+}) => (
     <div>
-        <select onChange={(e) => setSelectedCategory({ label: e.target.value, confirmLabel: '' })}>
+        <select
+            onChange={(e) =>
+                setSelectedCategory({ name: e.target.value, confirmName: "" })
+            }
+        >
             <option value="">Выберите категорию</option>
             {categories.map((cat) => (
-                <option key={cat.id} value={cat.label}>{cat.label}</option>
+                <option key={cat.id} value={cat.name}>
+                    {cat.name}
+                </option>
             ))}
         </select>
-        {selectedCategory.label && (
+        {selectedCategory.name && (
             <div>
                 <input
                     type="text"
-                    placeholder="Введите название для подтверждения"
-                    onChange={(e) => setSelectedCategory({ ...selectedCategory, confirmLabel: e.target.value })}
+                    placeholder="Подтвердите название"
+                    onChange={(e) =>
+                        setSelectedCategory({
+                            ...selectedCategory,
+                            confirmName: e.target.value,
+                        })
+                    }
                 />
             </div>
         )}
-        <div class="skill-admin-panel-buttons">
-            <button className="blue-button" onClick={resetMode}>Назад</button>
-            {selectedCategory.label && (
-                <button 
+        <div className="skill-admin-panel-buttons">
+            <button className="blue-button" onClick={resetMode}>
+                Назад
+            </button>
+            {selectedCategory.name && (
+                <button
                     className="blue-button"
                     onClick={handleRemoveCategory}
-                    disabled={selectedCategory.label !== selectedCategory.confirmLabel || selectedCategory.confirmLabel === ''}
+                    disabled={
+                        selectedCategory.name !==
+                            selectedCategory.confirmName ||
+                        selectedCategory.confirmName === ""
+                    }
                 >
                     Удалить
                 </button>
@@ -158,20 +278,38 @@ const RemoveCategory = ({ selectedCategory, setSelectedCategory, categories, han
     </div>
 );
 
-const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
+const SkillAdminPanel = ({
+    onPageChange,
+    skillsData,
+    setSkillsData,
+    onClose,
+    typeId,
+    fetchSkills,
+}) => {
     const [mode, setMode] = useState(null); // 'addSkill', 'removeSkill', 'addCategory', 'EditCategoty', 'removeCategory'
-    const [newSkill, setNewSkill] = useState({ label: '', description: '', category: '' });
-    const [selectedSkill, setSelectedSkill] = useState({ label: '', category: '', confirmLabel: '' });
-    const [newCategory, setNewCategory] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState({ label: '', confirmLabel: '' });
+    const [newSkill, setNewSkill] = useState({
+        name: "",
+        description: "",
+        categoryId: "",
+    });
+    const [selectedSkill, setSelectedSkill] = useState({
+        name: "",
+        categoryId: "",
+        confirmName: "",
+    });
+    const [newCategory, setNewCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState({
+        name: "",
+        confirmName: "",
+    });
 
-    const categories = skillsData.map(cat => cat.category);
+    const categories = skillsData.map((cat) => cat.categoryResponse);
 
     const resetFields = () => {
-        setNewSkill({ label: '', description: '', category: '' });
-        setSelectedSkill({ label: '', category: '', confirmLabel: '' });
-        setNewCategory('');
-        setSelectedCategory({ label: '', confirmLabel: '' });
+        setNewSkill({ name: "", description: "", category: "" });
+        setSelectedSkill({ name: "", category: "", confirmName: "" });
+        setNewCategory("");
+        setSelectedCategory({ name: "", confirmName: "" });
     };
 
     const resetMode = () => {
@@ -190,113 +328,157 @@ const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
         setMode(null);
     };
 
-    const sendToServer = async ({url, method, data}) => {
-        await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-    }
+    const sendToServer = async (endpoint, method, data) => {
+        const url = `http://localhost:8080/api/v1/${endpoint}`;
+        const authToken = localStorage.getItem("authToken");
+        return console.log(url, method, data)
+
+        try {
+            const fetchOptions = {
+                method: method,
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    "Content-Type": "application/json",
+                },
+            };
+
+            if (method !== "DELETE" && data) {
+                fetchOptions.body = JSON.stringify(data);
+            }
+
+            const response = await fetch(url, fetchOptions);
+
+            if (response.ok) {
+                const updatedSkillsData = await fetchSkills(typeId); 
+                updateSkillsData(updatedSkillsData); 
+            } else {
+                throw new Error(`Ошибка запроса: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error("Произошла ошибка при запросе:", error); 
+        }
+    };
 
     const handleAddSkill = async () => {
-        const updatedSkillsData = skillsData.map(cat => {
-            if (cat.category.label === newSkill.category) {
-                return {
-                    ...cat,
-                    skills: [...cat.skills, { id: Date.now(), label: newSkill.label, description: newSkill.description, progress: null }],
-                };
-            }
-            return cat;
-        });
+        const newSkillObject = {
+            name: newSkill.name,
+            description: newSkill.description,
+            categoryId: newSkill.categoryId,
+            typeId: typeId === "Hard" ? 1 : 2,
+        };
 
-        // sendToServer('...', '...', updatedSkillsData); 
-        updateSkillsData(updatedSkillsData);
+        sendToServer("skills", "POST", newSkillObject);
     };
 
     const handleRemoveSkill = async () => {
-        const updatedSkillsData = skillsData.map(cat => {
-            if (cat.category.label === selectedSkill.category) {
-                return {
-                    ...cat,
-                    skills: cat.skills.filter(skill => skill.label !== selectedSkill.label),
-                };
-            }
-            return cat;
-        });
-        
-        // sendToServer('...', '...', updatedSkillsData); 
-        updateSkillsData(updatedSkillsData);
+        const removeSkillId = skillsData
+            .filter(
+                (cat) => cat.categoryResponse.id === selectedSkill.categoryId
+            )
+            .flatMap((cat) => cat.skillResponses)
+            .find((skill) => skill.name === selectedSkill.name).id;
+
+        sendToServer(`delete-skill/${removeSkillId}`, "DELETE");
     };
-    
+
     const handleAddCategory = async () => {
-        const updatedSkillsData = [...skillsData, { category: { id: Date.now(), label: newCategory }, skills: [] }];
-        
-        // sendToServer('...', '...', updatedSkillsData); 
-        updateSkillsData(updatedSkillsData);
+        const newCategoryObject = {
+            name: newCategory,
+            type: typeId,
+        };
+
+        sendToServer("add-category", "POST", newCategoryObject);
     };
 
     const handleEditCategory = async () => {
-        const updatedSkillsData = skillsData.map(cat => {
-            if (cat.category.label === selectedCategory.label) {
-                return { ...cat, category: { ...cat.category, label: selectedCategory.confirmLabel } };
-            }
-            return cat;
-        });
+        const editedCategoryObject = {
+            id: categories.find((cat) => cat.name === selectedCategory.name).id,
+            name: selectedCategory.confirmName,
+        };
 
-        // sendToServer('...', '...', updatedSkillsData);
-        updateSkillsData(updatedSkillsData);
+        sendToServer("edit-category", "POST", editedCategoryObject);
     };
 
     const handleRemoveCategory = async () => {
-        const updatedSkillsData = skillsData.filter(cat => cat.category.label !== selectedCategory.label);
-        
-        // sendToServer('...', '...', updatedSkillsData); 
-        updateSkillsData(updatedSkillsData);
+        const removeCategoryId = categories.find(
+            (cat) => cat.name === selectedCategory.name
+        ).id;
+
+        sendToServer(`delete-skill/${removeCategoryId}`, "DELETE");
     };
 
     const getHeaderText = () => {
         switch (mode) {
-            case 'addSkill':
-                return 'Добавить новый скилл';
-            case 'removeSkill':
-                return 'Удалить скилл';
-            case 'addCategory':
-                return 'Добавить новую категорию';
-            case 'editCategory':
-                return 'Редактировать категорию';
-            case 'removeCategory':
-                return 'Удалить категорию';
+            case "addSkill":
+                return "Добавить новый навык";
+            case "removeSkill":
+                return "Удалить навык";
+            case "addCategory":
+                return "Добавить новую категорию";
+            case "editCategory":
+                return "Редактировать категорию";
+            case "removeCategory":
+                return "Удалить категорию";
             default:
-                return 'Управление навыками';
+                return "Управление навыками";
         }
     };
 
     const onMenuClick = (newMode) => {
         onClose();
         setMode(newMode);
-    } 
+    };
 
     return (
         <div className="skill-admin-panel">
-            <div style={{ textAlign: 'center'}}>
+            <div style={{ textAlign: "center" }}>
                 <span>{getHeaderText()}</span>
             </div>
             {mode === null && (
                 <div className="skill-admin-panel-menu">
-                    <button className="blue-button" onClick={() => onMenuClick('addSkill')}>Добавить скилл</button>
-                    <button className="blue-button" onClick={() => onMenuClick('removeSkill')}>Удалить скилл</button>
-                    <div style={{ textAlign: 'center', margin: '10px 0'}}>
+                    <button
+                        className="blue-button"
+                        onClick={() => onMenuClick("addSkill")}
+                    >
+                        Добавить скилл
+                    </button>
+                    <button
+                        className="blue-button"
+                        onClick={() => onMenuClick("removeSkill")}
+                    >
+                        Удалить скилл
+                    </button>
+                    <div style={{ textAlign: "center", margin: "30px 0 10px" }}>
                         <span>Управление категориями</span>
                     </div>
-                    <button className="blue-button" onClick={() => onMenuClick('addCategory')}>Добавить категорию</button>
-                    <button className="blue-button" onClick={() => onMenuClick('editCategory')}>Редактировать категорию</button>
-                    <button className="blue-button" onClick={() => onMenuClick('removeCategory')}>Удалить категорию</button>
+                    <button
+                        className="blue-button"
+                        onClick={() => onMenuClick("addCategory")}
+                    >
+                        Добавить категорию
+                    </button>
+                    <button
+                        className="blue-button"
+                        onClick={() => onMenuClick("editCategory")}
+                    >
+                        Изменить категорию
+                    </button>
+                    <button
+                        className="blue-button"
+                        onClick={() => onMenuClick("removeCategory")}
+                    >
+                        Удалить категорию
+                    </button>
+                    <button
+                        className="blue-button"
+                        onClick={() => onPageChange("main")}
+                    >
+                        На главную
+                    </button>
                 </div>
             )}
 
-            {mode === 'addSkill' && (
+            {mode === "addSkill" && (
                 <AddSkill
                     newSkill={newSkill}
                     setNewSkill={setNewSkill}
@@ -306,7 +488,7 @@ const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
                 />
             )}
 
-            {mode === 'removeSkill' && (
+            {mode === "removeSkill" && (
                 <RemoveSkill
                     selectedSkill={selectedSkill}
                     setSelectedSkill={setSelectedSkill}
@@ -316,7 +498,7 @@ const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
                 />
             )}
 
-            {mode === 'addCategory' && (
+            {mode === "addCategory" && (
                 <AddCategory
                     newCategory={newCategory}
                     setNewCategory={setNewCategory}
@@ -325,7 +507,7 @@ const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
                 />
             )}
 
-            {mode === 'editCategory' && (
+            {mode === "editCategory" && (
                 <EditCategory
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
@@ -335,7 +517,7 @@ const SkillAdminPanel = ({ skillsData, setSkillsData, onClose }) => {
                 />
             )}
 
-            {mode === 'removeCategory' && (
+            {mode === "removeCategory" && (
                 <RemoveCategory
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}

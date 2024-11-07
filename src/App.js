@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Auth from "./auth/Auth";
 import RegisterProfile from "./auth/RegisterProfile";
 import MainPage from "./main-page/MainPage";
@@ -6,15 +6,14 @@ import SkillPage from "./skill-map/SkillPage";
 import RatingPage from "./rating-page/RatingPage";
 
 const App = () => {
-    const [currentPage, setCurrentPage] = useState(
-        localStorage.getItem("currentPage") || null
-    );
     const [profileData, setProfileData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(
+        localStorage.getItem("currentPage") || "login"
+    );
+    const [pageData, setPageData] = useState(null);
 
     useEffect(() => {
-        if (currentPage) {
-            localStorage.setItem("currentPage", currentPage);
-        }
+        localStorage.setItem("currentPage", currentPage);
     }, [currentPage]);
 
     const handleLoginSuccess = async (token, role) => {
@@ -27,9 +26,9 @@ const App = () => {
         const url = "http://localhost:8080/api/v1/specialists/profile";
         const authToken = localStorage.getItem("authToken");
         const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
-        console.log(localStorage.getItem("userRole"))
+
         if (isAdmin) {
-            setCurrentPage("main");
+            renderPage("main");
             return;
         }
 
@@ -43,11 +42,11 @@ const App = () => {
             });
 
             if (response.status === 404) {
-                setCurrentPage("register-profile");
+                renderPage("register-profile");
             } else if (response.ok) {
                 const data = await response.json();
                 setProfileData(data);
-                setCurrentPage("main");
+                renderPage("main");
             }
         } catch (error) {
             console.error("Ошибка при получении профиля:", error);
@@ -55,15 +54,62 @@ const App = () => {
         }
     };
 
+    const fetchSkills = useCallback(async (type) => {
+        const url = `http://localhost:8080/api/v1/skills?type=${type}`;
+        const authToken = localStorage.getItem("authToken");
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error("Ошибка при загрузке навыков");
+            }
+            const data = await response.json();
+
+            const transformSkillsData = async (data) => {
+                return Object.values(data).flatMap((typeResponse) =>
+                    Object.entries(typeResponse).map(
+                        ([categoryKey, skillArray]) => ({
+                            categoryResponse: {
+                                id: parseInt(categoryKey.match(/\d+/)[0]),
+                                name: categoryKey.match(/name=([^,]+)\]/)[1],
+                            },
+                            skillResponses: skillArray.map((skill) => ({
+                                id: skill.id,
+                                name: skill.name,
+                                description: skill.description,
+                                progress: skill.progress || 0,
+                            })),
+                        })
+                    )
+                );
+            };
+
+            return transformSkillsData(data);
+        } catch (error) {
+            console.error("Ошибка при получении навыков:", error);
+        }
+    }, []);
+
     const handleLogout = () => {
         setProfileData(null);
         localStorage.removeItem("authToken");
         localStorage.removeItem("userRole");
         localStorage.removeItem("currentPage");
         setCurrentPage("login");
+        setPageData(null);
     };
 
-    const renderPage = () => {
+    const renderPage = (page, data = null) => {
+        setCurrentPage(page);
+        setPageData(data);
+    };
+
+    const renderCurrentPage = () => {
         const authToken = localStorage.getItem("authToken");
 
         if (!authToken) {
@@ -72,28 +118,42 @@ const App = () => {
 
         switch (currentPage) {
             case "register":
-                return <Auth onPageChange={setCurrentPage}/>
+                return <Auth onPageChange={renderPage} />;
             case "register-profile":
-                return <RegisterProfile onPageChange={setCurrentPage} />;
+                return (
+                    <RegisterProfile
+                        onPageChange={renderPage}
+                        fetchSkills={fetchSkills}
+                    />
+                );
             case "main":
                 return (
                     <MainPage
                         profileData={profileData}
                         onLogout={handleLogout}
-                        onPageChange={setCurrentPage}
+                        onPageChange={renderPage}
                         fetchUserProfile={() => fetchUserProfile(authToken)}
+                        fetchSkills={fetchSkills}
                     />
                 );
             case "skill":
-                return <SkillPage onPageChange={setCurrentPage} />;
+                return (
+                    <SkillPage
+                        onPageChange={renderPage}
+                        initialSkillsData={pageData.initialSkillsData}
+                        pageToRender={pageData.pageToRender}
+                        typeId={pageData.typeId}
+                        fetchSkills={fetchSkills}
+                    />
+                );
             case "rating":
-                return <RatingPage onPageChange={setCurrentPage} />;
+                return <RatingPage onPageChange={renderPage} />;
             default:
                 return <>{handleLogout()}</>;
         }
     };
 
-    return <div>{renderPage()}</div>;
+    return <div>{renderCurrentPage()}</div>;
 };
 
 export default App;

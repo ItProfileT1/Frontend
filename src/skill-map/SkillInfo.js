@@ -2,17 +2,19 @@ import "./SkillInfo.css";
 
 const SkillInfo = ({
     id,
-    label,
+    name,
     description,
     progress,
     onClose,
-    isAdmin,
-    isProfile,
     isSelected,
     addSkillId,
 }) => {
+    const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
+    const isProfile = localStorage.getItem("currentPage") === "register-profile"; 
+
     const handleClick = () => { addSkillId(id) };
     const renderProgress = () => {
+        if (isProfile) return;
         if (progress !== undefined) {
             return (
                 <div className="block-with-line">
@@ -46,7 +48,7 @@ const SkillInfo = ({
                         onClick={onClose}
                     />
                 </div>
-                <div className="skill-info-name">{label}</div>
+                <div className="skill-info-name">{name}</div>
                 <textarea
                     className="skill-info-description"
                     value={description || ""}
