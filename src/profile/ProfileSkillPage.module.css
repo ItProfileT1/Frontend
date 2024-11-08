@@ -1,10 +1,9 @@
 .userBlock {
-    width: 250px;
+    width: 275px;
     padding: 25px;
-    height: 350px;
+    height: 375px;
     border-radius: 20px;
     background: #e1e4e5;
-    margin: 0 20px;
     border: 4px #33bee3 solid;
     display: flex;
     flex-direction: column;

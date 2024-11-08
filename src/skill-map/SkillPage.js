@@ -121,7 +121,6 @@ const SkillPage = ({
 
     const SkillsView = () => (
         <>
-            <Profile userData={userData} display_page="skill-page" />
             <SkillMap
                 initialSkillsData={initialSkillsData}
                 onSkillSelect={handleSkillSelect}

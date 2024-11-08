@@ -4,6 +4,7 @@ import RegisterProfile from "./auth/RegisterProfile";
 import MainPage from "./main-page/MainPage";
 import SkillPage from "./skill-map/SkillPage";
 import RatingPage from "./rating-page/RatingPage";
+import Profile from "./profile/Profile";
 
 const App = () => {
     const [profileData, setProfileData] = useState(null);
@@ -138,13 +139,16 @@ const App = () => {
                 );
             case "skill":
                 return (
-                    <SkillPage
-                        onPageChange={renderPage}
-                        initialSkillsData={pageData.initialSkillsData}
-                        pageToRender={pageData.pageToRender}
-                        typeId={pageData.typeId}
-                        fetchSkills={fetchSkills}
-                    />
+                    <div className="user-skill-page">
+                        <Profile userData={pageData.userData} display_page="skill-page" onPageChange={renderPage}/>
+                        <SkillPage
+                            onPageChange={renderPage}
+                            initialSkillsData={pageData.initialSkillsData}
+                            pageToRender={pageData.pageToRender}
+                            typeId={pageData.typeId}
+                            fetchSkills={fetchSkills}
+                        />
+                    </div>
                 );
             case "rating":
                 return <RatingPage onPageChange={renderPage} />;

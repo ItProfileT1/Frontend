@@ -25,41 +25,74 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         { label: "Посмотреть карту<br/>Хард скиллов", action: 1 },
         { label: "Посмотреть карту<br/>Софт скиллов", action: 2 },
         { label: "Перейти к оценке", action: 3 },
-        { label: "Выйти", action: 0}
+        { label: "Выйти", action: 0 },
     ];
 
     const adminButtons = [
-        { label: "Редактировать должности", action: 8},
+        { label: "Редактировать должности", action: 8 },
         { label: "Создать пользователя", action: 7 },
         { label: "Изменить карту<br/>Хард скиллов", action: 4 },
         { label: "Изменить карту<br/>Софт скиллов", action: 5 },
         { label: "Список сотрудников<br/>на оценку", action: 6 },
         { label: "Просмотр оценок", action: 9 },
-        { label: "Выйти", action: 0}
+        { label: "Выйти", action: 0 },
     ];
 
     const buttonsToDisplay = isAdmin ? adminButtons : userButtons;
 
+    const fetchUserProfile = async () => {
+        const url = "http://localhost:8080/api/v1/specialists/profile";
+        const authToken = localStorage.getItem("authToken");
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        return await response.json();
+    };
+
     const handleClick = async (action) => {
-        switch(action) {
+        var data;
+        switch (action) {
             case 0:
                 onLogout();
                 return;
+            case 1:
+                data = {
+                    initialSkillsData: await fetchSkills("Hard"),
+                    pageToRender: "skills",
+                    typeId: "Hard",
+                    userData: await fetchUserProfile(),
+                };
+                onPageChange("skill", data);
+                return;
+            case 2:
+                data = {
+                    initialSkillsData: await fetchSkills("Soft"),
+                    pageToRender: "skills",
+                    typeId: "Soft",
+                    userData: await fetchUserProfile(),
+                };
+                onPageChange("skill", data);
+                return;
             case 4:
-                var data = {
+                data = {
                     initialSkillsData: await fetchSkills("Hard"),
                     pageToRender: "edit",
                     typeId: "Hard",
                 };
-                onPageChange("skill", data)
+                onPageChange("skill", data);
                 return;
             case 5:
-                var data = {
+                data = {
                     initialSkillsData: await fetchSkills("Soft"),
                     pageToRender: "edit",
                     typeId: "Soft",
                 };
-                onPageChange("skill", data)
+                onPageChange("skill", data);
                 return;
             case 7:
                 onPageChange("register");

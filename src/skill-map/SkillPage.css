@@ -17,12 +17,18 @@
     margin: 0 20px;
 }
 
-.register-profile .skill-page {
+.register-profile .skill-page,
+.user-skill-page .skill-page {
     position: unset;
     transform: unset;
 }
 
-.register-profile {
+.user-skill-page .skill-page {
+    width: 1405px;
+}
+
+.register-profile,
+.user-skill-page {
     display: flex;
     width: 1705px;
     position: absolute; 

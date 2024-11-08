@@ -18,7 +18,7 @@ const SkillInfo = ({
         if (progress !== undefined) {
             return (
                 <div className="block-with-line">
-                    <div style={{ fontWeight: 100 }}>Текущий уровень</div>
+                    <div style={{ fontWeight: 700 }}>Текущий уровень</div>
                     <div className="line"></div>
                     <div className="skill-info-progress">{progress}</div>
                 </div>

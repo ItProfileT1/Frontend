@@ -8,14 +8,12 @@ const stylesMap = {
     "rating-page": ratingStyles,
 };
 
-const Profile = ({ userData, display_page }) => {
+const Profile = ({ userData, display_page, onPageChange }) => {
     if (!userData) {
         return <></>;
     }
 
     const styles = stylesMap[display_page];
-
-    const handleSkillPageClick = () => {};
 
     return (
         <div className={styles.userBlock}>
@@ -67,7 +65,7 @@ const Profile = ({ userData, display_page }) => {
                 <div className={styles.profileButtonWrapper}>
                     <button
                         className="blue-button"
-                        onClick={handleSkillPageClick}
+                        onClick={() => onPageChange("main")}
                     >
                         На главную
                     </button>
