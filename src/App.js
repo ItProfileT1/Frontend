@@ -6,6 +6,7 @@ import SkillPage from "./skill-map/SkillPage";
 import RatingPage from "./rating-page/RatingPage";
 import Profile from "./profile/Profile";
 import SkillPosition from "./skill-map/SkillPosition";
+import AdminWorkersList from "./admin/AdminWorkerList";
 
 const App = () => {
     const [profileData, setProfileData] = useState(null);
@@ -13,7 +14,7 @@ const App = () => {
         localStorage.getItem("currentPage") || "login"
     );
     const [pageData, setPageData] = useState(null);
-
+    // console.log(localStorage.getItem('authToken'))
     useEffect(() => {
         localStorage.setItem("currentPage", currentPage);
     }, [currentPage]);
@@ -180,6 +181,8 @@ const App = () => {
                 );
             case "rating":
                 return <RatingPage onPageChange={renderPage} />;
+            case "show-workers":
+                return <AdminWorkersList onPageChange={renderPage} />
             default:
                 return <>{handleLogout()}</>;
         }

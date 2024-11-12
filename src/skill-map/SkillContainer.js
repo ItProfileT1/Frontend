@@ -9,7 +9,7 @@ const SkillContainer = ({
     isEdit,
 }) => {
     if (!skillsWithCategory || !skillsWithoutCategory) return <></>;
-
+    
     const renderSkills = (skills, categoryName) => (
         <div className="skills-column">
             {categoryName && (
@@ -57,10 +57,17 @@ const SkillElement = ({
         onSkillClick(id, name, description, progress);
     };
 
-    const renderSkillLevels = (levels) =>
-        Array.from({ length: levels }, (_, i) => (
-            <div key={i} className={`skill-level skill-level-${levels}`} />
+    const renderSkillLevels = (progress) => {
+        if (progress <= 1) {
+            return (
+                <div className={`skill-level skill-level-${progress}`} />
+            );
+        }
+
+        return Array.from({ length: progress }, (_, i) => (
+            <div key={i} className={`skill-level skill-level-${progress}`} />
         ));
+    };
 
     const isSelected = selectedSkills?.includes(id);
     const isRegister =
@@ -77,7 +84,7 @@ const SkillElement = ({
         >
             {!isEdit && !isRegister && !isPosition && (
                 <div className="skill-level-container">
-                    {renderSkillLevels(Math.max(1, progress))}
+                    {renderSkillLevels(progress)}
                 </div>
             )}
             <div className="skill-label">{name}</div>

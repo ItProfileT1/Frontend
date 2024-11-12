@@ -12,7 +12,7 @@ const Profile = ({ userData, display_page, onPageChange }) => {
     if (!userData) {
         return <></>;
     }
-
+    console.log(userData)
     const styles = stylesMap[display_page];
 
     return (
@@ -40,7 +40,7 @@ const Profile = ({ userData, display_page, onPageChange }) => {
                     <div>
                         <span>{userData.surname}</span>
                     </div>
-                    <div>{userData.position}</div>
+                    <div>{userData.positionResponse.name}</div>
                 </div>
 
                 {userData.skill && (

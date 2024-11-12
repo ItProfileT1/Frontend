@@ -30,6 +30,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
 
     const adminButtons = [
         { label: "Редактировать должности", action: 8 },
+        { label: "Список сотрудников", action: 10 },
         { label: "Создать пользователя", action: 7 },
         { label: "Изменить карту<br/>Хард скиллов", action: 4 },
         { label: "Изменить карту<br/>Софт скиллов", action: 5 },
@@ -103,6 +104,9 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
             case 8:
                 onPageChange("position");
                 return;
+
+            case 10:
+                onPageChange("show-workers")
             default:
                 console.log(action);
         }
