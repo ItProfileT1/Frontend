@@ -26,6 +26,7 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
 
                     if (response.ok) {
                         const rolesData = await response.json();
+                        rolesData.sort((a, b) => a.id - b.id);
                         setRoles(rolesData);
                         setSelectedRole(rolesData[0]?.id); 
                     }

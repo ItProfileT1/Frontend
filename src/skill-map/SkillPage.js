@@ -1,8 +1,8 @@
 import "./SkillPage.css";
+import SkillAdminPanel from "./SkillAdminPanel";
 import Profile from "../profile/Profile";
 import SkillMap from "./SkillMap";
 import SkillInfo from "./SkillInfo";
-import SkillAdminPanel from "./SkillAdminPanel";
 import SkillEdit from "./SkillEdit";
 import { React, useState, useEffect } from "react";
 
@@ -16,7 +16,7 @@ const SkillPage = ({
     addSkillId,
     typeId,
 }) => {
-    const [skillsData, setSkillsData] = useState([]);
+    const [skillsData, setSkillsData] = useState({ skillsWithCategory: [], skillsWithoutCategory: [] });
     const [selectedSkill, setSelectedSkill] = useState({
         id: "",
         name: "",
@@ -41,34 +41,6 @@ const SkillPage = ({
         setSkillInfoShown(true);
     };
 
-    const handleSkillSave = async (data) => {
-        setSkillInfoShown(false);
-        return console.log(data);
-        const url = `http://localhost:8080/api/v1/edit-skill`;
-        const authToken = localStorage.getItem("authToken");
-
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                const updatedSkillsData = await fetchSkills(typeId); 
-                setSkillsData(updatedSkillsData); 
-            } else {
-                throw new Error(`Ошибка запроса: ${response.statusText}`);
-            }
-        } catch (error) {
-            console.error("Произошла ошибка при запросе:", error); 
-        }
-
-        setSkillInfoShown(false);
-    };
-
     const handleCloseInfo = () => setSkillInfoShown(false);
 
     const EditView = () => (
@@ -76,23 +48,22 @@ const SkillPage = ({
             <SkillAdminPanel
                 fetchSkills={fetchSkills}
                 onPageChange={onPageChange}
-                skillsData={skillsData}
                 setSkillsData={setSkillsData}
                 onClose={handleCloseInfo}
                 typeId={typeId}
             />
              <SkillMap
-                initialSkillsData={skillsData}
+                initialSkillsData={skillsData} 
                 onSkillSelect={handleSkillEditClick}
                 isEdit={true}
             />
             {isSkillInfoShown && (
-                <SkillEdit
+                <SkillInfo
                     onClose={handleCloseInfo}
-                    onSave={handleSkillSave}
                     id={selectedSkill.id}
                     name={selectedSkill.name}
                     description={selectedSkill.description}
+                    isEdit={true}
                 />
             )}
             <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
@@ -102,7 +73,7 @@ const SkillPage = ({
     const ProfileView = () => (
         <>
             <SkillMap
-                initialSkillsData={initialSkillsData}
+                initialSkillsData={skillsData} 
                 onSkillSelect={handleSkillSelect}
             />
             {isSkillInfoShown && (
@@ -122,7 +93,7 @@ const SkillPage = ({
     const SkillsView = () => (
         <>
             <SkillMap
-                initialSkillsData={initialSkillsData}
+                initialSkillsData={skillsData}  
                 onSkillSelect={handleSkillSelect}
             />
             {isSkillInfoShown && (

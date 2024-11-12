@@ -1,10 +1,11 @@
 import React from 'react';
 import SkillElement from './SkillElement';
 
-const SkillContainer = ({ skillsData, onSkillSelect, isEdit }) => {
+const SkillContainer = ({ skillsWithCategory, skillsWithoutCategory, onSkillSelect, isEdit }) => {
     return (
         <div className="skills-container">
-            {skillsData.map((instance) => (
+            {/* Отображаем навыки с категориями, если такие есть */}
+            {skillsWithCategory.length > 0 && skillsWithCategory.map((instance) => (
                 <SkillCategory 
                     key={instance.categoryResponse.id} 
                     instance={instance} 
@@ -12,6 +13,24 @@ const SkillContainer = ({ skillsData, onSkillSelect, isEdit }) => {
                     isEdit={isEdit} 
                 />
             ))}
+
+            {/* Отображаем навыки без категории, если такие есть */}
+            {skillsWithoutCategory.length > 0 && (
+                <div className="skills-column">
+                    <div className="blue-button skill-parent-label">Без категории</div>
+                    {skillsWithoutCategory.map((skill) => (
+                        <SkillElement 
+                            key={skill.id} 
+                            id={skill.id} 
+                            label={skill.name} 
+                            progress={skill.progress} 
+                            description={skill.description} 
+                            onSkillClick={onSkillSelect} 
+                            isEdit={isEdit} 
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

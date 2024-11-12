@@ -1,6 +1,13 @@
-import './SkillElement.css';
+import "./SkillElement.css";
 
-const SkillElement = ({ id, label, progress, description, onSkillClick, isEdit }) => {
+const SkillElement = ({
+    id,
+    label,
+    progress,
+    description,
+    onSkillClick,
+    isEdit,
+}) => {
     const handleClick = () => {
         onSkillClick(id, label, description, progress);
     };
@@ -8,21 +15,28 @@ const SkillElement = ({ id, label, progress, description, onSkillClick, isEdit }
     const renderSkillLevels = () => {
         const numberOfLevels = progress >= 2 ? progress : 1;
         return Array.from({ length: numberOfLevels }, (_, i) => (
-            <div 
-                key={i} 
-                className={`skill-level ${progress !== null ? `skill-level-${progress}` : ''}`} 
+            <div
+                key={i}
+                className={`skill-level ${
+                    progress !== null ? `skill-level-${progress}` : ""
+                }`}
             />
         ));
     };
-    
-    const isRegister = localStorage.getItem("currentPage") === "register-profile";
+
+    const isRegister =
+        localStorage.getItem("currentPage") === "register-profile";
     return (
-        <div 
-            className="blue-button skill-element" 
-            id={id} 
+        <div
+            className="blue-button skill-element"
+            id={id}
             onClick={handleClick}
         >
-            {!isEdit && !isRegister && <div className="skill-level-container">{renderSkillLevels()}</div>}
+            {!isEdit && !isRegister && (
+                <div className="skill-level-container">
+                    {renderSkillLevels()}
+                </div>
+            )}
             <div className="skill-label">{label}</div>
         </div>
     );

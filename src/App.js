@@ -58,7 +58,7 @@ const App = () => {
     const fetchSkills = useCallback(async (type) => {
         const url = `http://localhost:8080/api/v1/skills?type=${type}`;
         const authToken = localStorage.getItem("authToken");
-
+    
         try {
             const response = await fetch(url, {
                 method: "GET",
@@ -70,27 +70,51 @@ const App = () => {
                 throw new Error("Ошибка при загрузке навыков");
             }
             const data = await response.json();
-
+    
             const transformSkillsData = async (data) => {
-                return Object.values(data).flatMap((typeResponse) =>
-                    Object.entries(typeResponse).map(
-                        ([categoryKey, skillArray]) => ({
-                            categoryResponse: {
-                                id: parseInt(categoryKey.match(/\d+/)[0]),
-                                name: categoryKey.match(/name=([^,]+)\]/)[1],
-                            },
-                            skillResponses: skillArray.map((skill) => ({
-                                id: skill.id,
-                                name: skill.name,
-                                description: skill.description,
-                                progress: skill.progress || 0,
-                            })),
-                        })
-                    )
-                );
-            };
+                const skillsWithCategory = {};
+                const skillsWithoutCategory = [];
+    
+                data.forEach((skill) => {
+                    if (skill.category && skill.category.id !== null) {
+                        const categoryId = skill.category.id;
+                        if (!skillsWithCategory[categoryId]) {
+                            skillsWithCategory[categoryId] = {
+                                categoryResponse: {
+                                    id: skill.category.id,
+                                    name: skill.category.name,
+                                },
+                                skillResponses: [],
+                            };
+                        }
+                        skillsWithCategory[categoryId].skillResponses.push({
+                            id: skill.id,
+                            name: skill.name,
+                            description: skill.description,
+                            progress: skill.progress || 0,
+                        });
+                    } else {
+                        skillsWithoutCategory.push({
+                            id: skill.id,
+                            name: skill.name,
+                            description: skill.description,
+                            progress: skill.progress || 0,
+                        });
+                    }
+                });
 
-            return transformSkillsData(data);
+                Object.keys(skillsWithCategory).forEach((categoryId) => {
+                    skillsWithCategory[categoryId].skillResponses.sort((a, b) => a.id - b.id);
+                });
+    
+                skillsWithoutCategory.sort((a, b) => a.id - b.id);
+                
+                return {
+                    skillsWithCategory: Object.values(skillsWithCategory),
+                    skillsWithoutCategory,
+                };
+            };
+            return await transformSkillsData(data);
         } catch (error) {
             console.error("Ошибка при получении навыков:", error);
         }
@@ -110,6 +134,7 @@ const App = () => {
         setPageData(data);
     };
 
+    // handleLogout();
     const renderCurrentPage = () => {
         const authToken = localStorage.getItem("authToken");
 

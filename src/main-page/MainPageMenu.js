@@ -84,6 +84,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
                     pageToRender: "edit",
                     typeId: "Hard",
                 };
+                console.log(data)
                 onPageChange("skill", data);
                 return;
             case 5:
