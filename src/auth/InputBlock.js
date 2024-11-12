@@ -11,6 +11,7 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
         birthday: "date",
         sex: "gender",
         job: "job",
+        position: "job",
         skills: "skills",
     };
 
@@ -50,6 +51,23 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
         }
 
         if (id === "job") {
+            return (
+                <select
+                    id={id}
+                    onChange={onChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                >
+                    {data.map((elem) => (
+                        <option key={elem.id} value={elem.id}>
+                            {elem.name}
+                        </option>
+                    ))}
+                </select>
+            );
+        }
+
+        if (id === "position") {
             return (
                 <select
                     id={id}
@@ -116,7 +134,7 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
             </div>
             <div className="auth-input-static">
                 {renderInputField()}
-                {id !== "birthday" && id !== "sex" && id !== "job" && id !== "skills" && (
+                {id !== "birthday" && id !== "sex" && id !== "job" && id !== "position" && id !== "skills" && (
                     <img
                         src={`${process.env.PUBLIC_URL}/assets/auth/${id}-static.svg`}
                         alt=""

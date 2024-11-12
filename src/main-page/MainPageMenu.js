@@ -83,6 +83,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
                     initialSkillsData: await fetchSkills("Hard"),
                     pageToRender: "edit",
                     typeId: "Hard",
+                    userData: null,
                 };
                 console.log(data)
                 onPageChange("skill", data);
@@ -92,11 +93,15 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
                     initialSkillsData: await fetchSkills("Soft"),
                     pageToRender: "edit",
                     typeId: "Soft",
+                    userData: null,
                 };
                 onPageChange("skill", data);
                 return;
             case 7:
                 onPageChange("register");
+                return;
+            case 8:
+                onPageChange("position");
                 return;
             default:
                 console.log(action);

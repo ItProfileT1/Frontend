@@ -1,5 +1,7 @@
-.skill-element, .skill-parent-label {
+.skill-element,
+.skill-parent-label {
     position: relative;
+    border: 1px transparent solid;
     width: 130px;
     height: 80px;
     padding: 10px;
@@ -14,11 +16,10 @@
 .skill-parent-label {
     text-align: center;
     user-select: none;
-    cursor:default;
+    cursor: default;
     background: linear-gradient(225.72deg, #1dcbf9 0%, #1dcbf9 100%);
     font-weight: 700;
 }
-
 
 .skill-label {
     user-select: none;
@@ -46,13 +47,19 @@
 }
 
 .skill-level--1 {
-    background: linear-gradient(86.42deg, #C81212 0%, #851717 100%);
+    background: linear-gradient(86.42deg, #c81212 0%, #851717 100%);
 }
 
 .skill-level-0 {
     background: linear-gradient(90deg, #fdfd4b, #ffd700);
 }
 
-.skill-level-1, .skill-level-2, .skill-level-3 {
-    background: linear-gradient(86.42deg, #4CC812 0%, #478517 100%);
+.skill-level-1,
+.skill-level-2,
+.skill-level-3 {
+    background: linear-gradient(86.42deg, #4cc812 0%, #478517 100%);
+}
+
+.user-selected-skill {
+    border: 1px #1414b8 solid;
 }

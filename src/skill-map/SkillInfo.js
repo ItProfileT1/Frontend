@@ -9,11 +9,13 @@ const SkillInfo = ({
     isSelected,
     isEdit,
     addSkillId,
+    selectedPositionId,
 }) => {
     const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
     const isProfile =
         localStorage.getItem("currentPage") === "register-profile";
-
+    const isPosition = localStorage.getItem("currentPage") === "position";
+    
     const handleClick = () => {
         addSkillId(id);
     };
@@ -27,14 +29,17 @@ const SkillInfo = ({
                     <div className="skill-info-progress">{progress}</div>
                 </div>
             );
-        } else if (isEdit) {
-            return <></>
+        } else if (isEdit || isPosition) {
+            return <></>;
         } else {
             return <div className="skill-info-noscore">Не оценено</div>;
         }
     };
 
     const renderButtonLabel = () => {
+        if (isPosition) {
+            return "Добавить";
+        }
         if (isAdmin) {
             return "Провести оценку";
         }
@@ -63,7 +68,7 @@ const SkillInfo = ({
                 {renderProgress()}
             </div>
             <div>
-                {!isEdit && (
+                {!isEdit && (isPosition ? !isSelected : true) && selectedPositionId !== 'none' && (
                     <button className="blue-button" onClick={handleClick}>
                         {renderButtonLabel()}
                     </button>

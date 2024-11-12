@@ -5,6 +5,7 @@ import MainPage from "./main-page/MainPage";
 import SkillPage from "./skill-map/SkillPage";
 import RatingPage from "./rating-page/RatingPage";
 import Profile from "./profile/Profile";
+import SkillPosition from "./skill-map/SkillPosition";
 
 const App = () => {
     const [profileData, setProfileData] = useState(null);
@@ -162,10 +163,12 @@ const App = () => {
                         fetchSkills={fetchSkills}
                     />
                 );
+            case "position":
+                return <SkillPosition onPageChange={renderPage} fetchSkills={fetchSkills} />;
             case "skill":
                 return (
                     <div className="user-skill-page">
-                        <Profile userData={pageData.userData} display_page="skill-page" onPageChange={renderPage}/>
+                        <Profile userData={pageData?.userData} display_page="skill-page" onPageChange={renderPage}/>
                         <SkillPage
                             onPageChange={renderPage}
                             initialSkillsData={pageData.initialSkillsData}

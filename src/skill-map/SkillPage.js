@@ -1,9 +1,7 @@
 import "./SkillPage.css";
 import SkillAdminPanel from "./SkillAdminPanel";
-import Profile from "../profile/Profile";
 import SkillMap from "./SkillMap";
 import SkillInfo from "./SkillInfo";
-import SkillEdit from "./SkillEdit";
 import { React, useState, useEffect } from "react";
 
 const SkillPage = ({
@@ -15,8 +13,13 @@ const SkillPage = ({
     selectedSkills,
     addSkillId,
     typeId,
+    handleLinkToPosition,
+    selectedPositionId
 }) => {
-    const [skillsData, setSkillsData] = useState({ skillsWithCategory: [], skillsWithoutCategory: [] });
+    const [skillsData, setSkillsData] = useState({
+        skillsWithCategory: [],
+        skillsWithoutCategory: [],
+    });
     const [selectedSkill, setSelectedSkill] = useState({
         id: "",
         name: "",
@@ -52,8 +55,8 @@ const SkillPage = ({
                 onClose={handleCloseInfo}
                 typeId={typeId}
             />
-             <SkillMap
-                initialSkillsData={skillsData} 
+            <SkillMap
+                initialSkillsData={skillsData}
                 onSkillSelect={handleSkillEditClick}
                 isEdit={true}
             />
@@ -73,8 +76,9 @@ const SkillPage = ({
     const ProfileView = () => (
         <>
             <SkillMap
-                initialSkillsData={skillsData} 
+                initialSkillsData={skillsData}
                 onSkillSelect={handleSkillSelect}
+                selectedSkills={selectedSkills}
             />
             {isSkillInfoShown && (
                 <SkillInfo
@@ -93,7 +97,7 @@ const SkillPage = ({
     const SkillsView = () => (
         <>
             <SkillMap
-                initialSkillsData={skillsData}  
+                initialSkillsData={skillsData}
                 onSkillSelect={handleSkillSelect}
             />
             {isSkillInfoShown && (
@@ -109,6 +113,28 @@ const SkillPage = ({
         </>
     );
 
+    const PositionView = () => (
+        <>
+            <SkillMap
+                initialSkillsData={skillsData}
+                selectedSkills={selectedSkills}
+                onSkillSelect={handleSkillSelect}
+            />
+            {isSkillInfoShown && (
+                <SkillInfo
+                    onClose={handleCloseInfo}
+                    id={selectedSkill.id}
+                    name={selectedSkill.name}
+                    description={selectedSkill.description}
+                    isSelected={selectedSkills?.includes(selectedSkill.id)}
+                    addSkillId={handleLinkToPosition}
+                    selectedPositionId={selectedPositionId}
+                />
+            )}
+            <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
+        </>
+    )
+
     const renderPage = (page) => {
         switch (page) {
             case "edit":
@@ -117,6 +143,8 @@ const SkillPage = ({
                 return <ProfileView />;
             case "skills":
                 return <SkillsView />;
+            case "position": 
+                return <PositionView />
             default:
                 return null;
         }

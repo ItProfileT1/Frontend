@@ -3,7 +3,7 @@ import "./SkillMap.css";
 import SkillContainer from "./SkillContainer";
 import SkillControls from "./SkillControls";
 
-const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit }) => {
+const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit, selectedSkills }) => {
     const [scale, setScale] = useState(1);
     const [translate, setTranslate] = useState({ x: 0, y: 0 });
 
@@ -13,34 +13,34 @@ const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit }) => {
     const [moveSensitivity, setMoveSensitivity] = useState(0.5);
     const [zoomSensitivity, setZoomSensitivity] = useState(0.1);
 
-    const handleMouseDown = (event) => {
+    const handleMouseDown = (e) => {
         setIsDragging(true);
-        setLastMousePosition({ x: event.clientX, y: event.clientY });
+        setLastMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (e) => {
         if (!isDragging) return;
 
-        const dx = (event.clientX - lastMousePosition.x) * moveSensitivity;
-        const dy = (event.clientY - lastMousePosition.y) * moveSensitivity;
+        const dx = (e.clientX - lastMousePosition.x) * moveSensitivity;
+        const dy = (e.clientY - lastMousePosition.y) * moveSensitivity;
 
         setTranslate((prev) => ({
             x: prev.x + dx,
             y: prev.y + dy,
         }));
 
-        setLastMousePosition({ x: event.clientX, y: event.clientY });
+        setLastMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseUp = () => {
         setIsDragging(false);
     };
 
-    const handleWheel = (event) => {
-        if (event.altKey) {
-            event.preventDefault();
+    const handleWheel = (e) => {
+        if (e.altKey) {
+            e.preventDefault();
 
-            if (event.deltaY < 0) {
+            if (e.deltaY < 0) {
                 setScale((prevScale) => prevScale + zoomSensitivity);
             } else {
                 setScale((prevScale) =>
@@ -49,7 +49,7 @@ const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit }) => {
             }
         }
     };
-    console.log(initialSkillsData)
+
     return (
         <div className="skill-map">
             <div
@@ -74,6 +74,7 @@ const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit }) => {
                         skillsWithoutCategory={
                             initialSkillsData.skillsWithoutCategory
                         }
+                        selectedSkills={selectedSkills}
                         onSkillSelect={onSkillSelect}
                         isEdit={isEdit}
                     />

@@ -18,7 +18,8 @@
 }
 
 .register-profile .skill-page,
-.user-skill-page .skill-page {
+.user-skill-page .skill-page,
+.skill-position .skill-page {
     position: unset;
     transform: unset;
 }
@@ -28,7 +29,8 @@
 }
 
 .register-profile,
-.user-skill-page {
+.user-skill-page,
+.skill-position {
     display: flex;
     width: 1705px;
     position: absolute; 

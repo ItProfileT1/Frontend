@@ -63,7 +63,7 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
-    
+    // onPageChange('login')
     return (
         <div className="register-profile">
             <div className="register-profile-data auth-panel-bg" style={{ display: 'flex', flexDirection: 'column' }}>
