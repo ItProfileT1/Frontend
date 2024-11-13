@@ -115,8 +115,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         editPositions: () => onPageChange("position"),
         viewEmployees: () => onPageChange("show-workers"),
         assessoryRating: () => onPageChange("assessory-rating"),
-        // viewEmployeesForRating: () => onPageChange("show-workers"),
-        // viewRatings: () => onPageChange("rating"),
+        viewRatings: () => onPageChange("assessory-rating"),
         default: (action) => console.log(`Unknown action: ${action}`),
     };
 

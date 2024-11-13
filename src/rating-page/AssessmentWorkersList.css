@@ -167,3 +167,27 @@ display: flex;
     display: flex;
     justify-content: space-between;
 }
+
+.assessment-score-default {
+    border: 4px #303030 solid;
+}
+
+.assessment-score-negative {
+    border: 4px #C81212 solid;
+}
+
+.assessment-score-zero {
+    border: 4px #fdfd4b solid;
+}
+
+.assessment-score-positive-1 {
+    border: 4px #4CC812 solid;
+}
+
+.assessment-score-positive-2 {
+    border: 4px #4AA715 solid;
+}
+
+.assessment-score-positive-3 {
+    border: 4px #478517 solid;
+}

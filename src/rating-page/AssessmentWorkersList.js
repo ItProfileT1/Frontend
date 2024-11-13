@@ -179,6 +179,150 @@ const sampleSkillsResponse = {
     empty: false,
 };
 
+const sampleMasterSkillsResponse = [
+    {
+        skill: {
+            id: 1,
+            name: "Коммуникативные навыки",
+            description: "Умение эффективно общаться",
+            question: "Как вы оцениваете свои коммуникативные навыки?",
+            type: {
+                id: 1,
+                name: "Soft Skill",
+            },
+            category: {
+                id: 1,
+                name: "Взаимодействие",
+                typeResponse: {
+                    id: 1,
+                    name: "Оценка",
+                },
+            },
+        },
+        level: {
+            id: 1,
+            name: "Ниже среднего",
+            numericValue: -1,
+        },
+        description: "Требует улучшения в общении",
+        developmentWay: "Работать над навыками активного слушания",
+        comments: ["Нуждается в улучшении невербальных навыков"],
+    },
+    {
+        skill: {
+            id: 2,
+            name: "Решение проблем",
+            description: "Способность эффективно решать задачи",
+            question: "Как вы подходите к решению проблем?",
+            type: {
+                id: 2,
+                name: "Hard Skill",
+            },
+            category: {
+                id: 2,
+                name: "Аналитика",
+                typeResponse: {
+                    id: 2,
+                    name: "Оценка",
+                },
+            },
+        },
+        level: {
+            id: 2,
+            name: "Средний",
+            numericValue: 2,
+        },
+        description: "Нуждается в большей структурированности подхода",
+        developmentWay:
+            "Изучить методы решения задач, такие как метод Декомпозиции",
+        comments: ["Рекомендуется использовать больше анализа"],
+    },
+    {
+        skill: {
+            id: 3,
+            name: "Лидерство",
+            description: "Умение управлять командой",
+            question: "Как вы оцениваете свои лидерские качества?",
+            type: {
+                id: 1,
+                name: "Soft Skill",
+            },
+            category: {
+                id: 3,
+                name: "Управление",
+                typeResponse: {
+                    id: 1,
+                    name: "Оценка",
+                },
+            },
+        },
+        level: {
+            id: 3,
+            name: "Хороший",
+            numericValue: 3,
+        },
+        description: "Имеет уверенные лидерские качества",
+        developmentWay: "Развивать навык делегирования задач",
+        comments: ["Проявляет уверенность в управлении"],
+    },
+    {
+        skill: {
+            id: 4,
+            name: "Технические знания",
+            description: "Понимание технических процессов",
+            question: "Как вы оцениваете свои технические знания?",
+            type: {
+                id: 2,
+                name: "Hard Skill",
+            },
+            category: {
+                id: 4,
+                name: "Технические",
+                typeResponse: {
+                    id: 2,
+                    name: "Оценка",
+                },
+            },
+        },
+        level: {
+            id: 4,
+            name: "Отлично",
+            numericValue: 3,
+        },
+        description: "Отличные технические знания",
+        developmentWay: "Продолжать изучение передовых технологий",
+        comments: ["Уверенно разбирается в процессах"],
+    },
+    {
+        skill: {
+            id: 5,
+            name: "Управление временем",
+            description: "Эффективное использование времени",
+            question: "Как вы оцениваете свой навык управления временем?",
+            type: {
+                id: 1,
+                name: "Soft Skill",
+            },
+            category: {
+                id: 5,
+                name: "Организационные",
+                typeResponse: {
+                    id: 1,
+                    name: "Оценка",
+                },
+            },
+        },
+        level: {
+            id: 5,
+            name: "Средний",
+            numericValue: 0,
+        },
+        description: "Может улучшить планирование",
+        developmentWay: "Работать над приоритизацией задач",
+        comments: ["Иногда испытывает трудности с дедлайнами"],
+    },
+];
+
 const getSelectClass = (selectedScore) => {
     switch (selectedScore) {
         case "-1":
@@ -205,22 +349,42 @@ const AssessmentWorkersList = ({ onPageChange }) => {
 
     useEffect(() => {
         const fetchAssessments = async () => {
-            // try {
-            //     const response = await fetch(
-            //         "http://localhost:8080/api/v1/assessment-process",
-            //         {
-            //             method: "GET",
-            //             headers: {
-            //                 Authorization: `Bearer ${authToken}`,
-            //                 "Content-Type": "application/json",
-            //             },
-            //         }
-            //     );
-            //     const data = await response.json();
-            //     setAssessments(data);
-            // } catch (error) {
-            //     console.error("Error fetching assessments:", error);
-            // }
+            const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
+            if (isMaster) {
+                // try {
+                //     const response = await fetch(
+                //         "http://localhost:8080/api/v1/assessment-process/created",
+                //         {
+                //             method: "GET",
+                //             headers: {
+                //                 Authorization: `Bearer ${authToken}`,
+                //                 "Content-Type": "application/json",
+                //             },
+                //         }
+                //     );
+                //     const data = await response.json();
+                //     setAssessments(data);
+                // } catch (error) {
+                //     console.error("Error fetching assessments:", error);
+                // }
+            } else {
+                // try {
+                //     const response = await fetch(
+                //         "http://localhost:8080/api/v1/assessment-process",
+                //         {
+                //             method: "GET",
+                //             headers: {
+                //                 Authorization: `Bearer ${authToken}`,
+                //                 "Content-Type": "application/json",
+                //             },
+                //         }
+                //     );
+                //     const data = await response.json();
+                //     setAssessments(data);
+                // } catch (error) {
+                //     console.error("Error fetching assessments:", error);
+                // }
+            }
 
             setAssessments(sampleAssessments);
         };
@@ -231,26 +395,54 @@ const AssessmentWorkersList = ({ onPageChange }) => {
     const handleAssessmentClick = async (id) => {
         setSelectedAssessmentId(id);
 
-        // try {
-        //     const response = await fetch(
-        //         `http://localhost:8080/api/v1/assessment-process/${id}`,
-        //         {
-        //             method: "GET",
-        //             headers: {
-        //                 Authorization: `Bearer ${authToken}`,
-        //                 "Content-Type": "application/json",
-        //             },
-        //         }
-        //     );
-        //     const data = await response.json();
-        //     setSkills(data.content);
-        // } catch (error) {
-        //     console.error("Error fetching skills:", error);
-        // }
+        const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
+        if (isMaster) {
+            // try {
+            //     const response = await fetch(
+            //         `http://localhost:8080/api/v1/assessment-process/${id}/results`,
+            //         {
+            //             method: "GET",
+            //             headers: {
+            //                 Authorization: `Bearer ${authToken}`,
+            //                 "Content-Type": "application/json",
+            //             },
+            //         }
+            //     );
+            //     const data = await response.json();
+            //     setSkills(data);
 
-        setSkills(sampleSkillsResponse.content);
-        setSkillRatings({});
-        setAllSkillsRated(false);
+            // } catch (error) {
+            //     console.error("Error fetching skills:", error);
+            // }
+            const updatedRatings = {};
+            sampleMasterSkillsResponse.forEach((skill) => {
+                updatedRatings[skill.skill.id] =
+                    skill.level.numericValue.toString();
+            });
+            setSkills(sampleMasterSkillsResponse);
+            setSkillRatings(updatedRatings);
+            setAllSkillsRated(true);
+        } else {
+            // try {
+            //     const response = await fetch(
+            //         `http://localhost:8080/api/v1/assessment-process/${id}`,
+            //         {
+            //             method: "GET",
+            //             headers: {
+            //                 Authorization: `Bearer ${authToken}`,
+            //                 "Content-Type": "application/json",
+            //             },
+            //         }
+            //     );
+            //     const data = await response.json();
+            //     setSkills(data.content);
+            // } catch (error) {
+            //     console.error("Error fetching skills:", error);
+            // }
+            setSkills(sampleSkillsResponse.content);
+            setSkillRatings({});
+            setAllSkillsRated(false);
+        }
     };
 
     const handleSelectChange = (skillId, rate) => {
@@ -269,33 +461,36 @@ const AssessmentWorkersList = ({ onPageChange }) => {
     };
 
     const handleSubmitRatings = async () => {
-      const assessorSkillRates = Object.entries(skillRatings).map(
-          ([skillId, rateId]) => ({
-              skillId: parseInt(skillId, 10),
-              rateId: parseInt(rateId, 10),
-              comment: "",
-          })
-      );
-      return console.log(assessorSkillRates);
+        const assessorSkillRates = Object.entries(skillRatings).map(
+            ([skillId, rateId]) => ({
+                skillId: parseInt(skillId, 10),
+                rateId: parseInt(rateId, 10),
+                comment: "",
+            })
+        );
+        return console.log(assessorSkillRates);
 
-      try {
-          const response = await fetch(`http://localhost:8080/api/v1/assessment-process/${selectedAssessmentId}`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ assessorSkillRates }),
-          });
+        try {
+            const response = await fetch(
+                `http://localhost:8080/api/v1/assessment-process/${selectedAssessmentId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ assessorSkillRates }),
+                }
+            );
 
-          if (response.ok) {
-              onPageChange("main"); 
-          } else {
-              console.error("Ошибка:", response.status);
-          }
-      } catch (error) {
-          console.error("Ошибка отправки оценок:", error);
-      }
-  };
+            if (response.ok) {
+                onPageChange("main");
+            } else {
+                console.error("Ошибка:", response.status);
+            }
+        } catch (error) {
+            console.error("Ошибка отправки оценок:", error);
+        }
+    };
 
     return (
         <div className="assessment-workers-list-page">
@@ -349,24 +544,54 @@ const AssessmentWorkersList = ({ onPageChange }) => {
                         >
                             <div className="assessment-skills-list-wrapper">
                                 <div>
-                                {skills.map((skillItem) => {
+                                    {skills.map((skillItem) => {
                                         const skillId = skillItem.skill.id;
-                                        const selectedScore = skillRatings[skillId] || "Не выбрано";
-                                        const selectClass = getSelectClass(selectedScore);
+                                        const selectedScore =
+                                            skillRatings[skillId] ||
+                                            "Не выбрано";
+                                        const selectClass =
+                                            getSelectClass(selectedScore);
 
                                         return (
-                                            <div key={skillId} className="assessment-skill-elem">
-                                                <div style={{ width: dimensions.skill }}>
-                                                    {skillItem.skill.category.name} <br />
+                                            <div
+                                                key={skillId}
+                                                className="assessment-skill-elem"
+                                            >
+                                                <div
+                                                    style={{
+                                                        width: dimensions.skill,
+                                                    }}
+                                                >
+                                                    {
+                                                        skillItem.skill.category
+                                                            .name
+                                                    }{" "}
+                                                    <br />
                                                     {skillItem.skill.name}
                                                 </div>
                                                 <select
                                                     value={selectedScore}
                                                     className={selectClass}
-                                                    onChange={(e) => handleSelectChange(skillId, e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleSelectChange(
+                                                            skillId,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    style={{
+                                                        width: dimensions.score,
+                                                    }}
                                                 >
-                                                    <option value="Не выбрано">Не выбрано</option>
-                                                    <option value="-1">-1</option>
+                                                    {!localStorage.getItem(
+                                                        "userRole"
+                                                    ) === "ROLE_MASTER" && (
+                                                        <option value="Не выбрано">
+                                                            Не выбрано
+                                                        </option>
+                                                    )}
+                                                    <option value="-1">
+                                                        -1
+                                                    </option>
                                                     <option value="0">0</option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
@@ -390,7 +615,13 @@ const AssessmentWorkersList = ({ onPageChange }) => {
                     >
                         На главную
                     </button>
-                    <button className="blue-button" onClick={handleSubmitRatings} disabled={!allSkillsRated}>Оценить</button>
+                    <button
+                        className="blue-button"
+                        onClick={handleSubmitRatings}
+                        disabled={!allSkillsRated}
+                    >
+                        Оценить
+                    </button>
                 </div>
             </div>
         </div>
