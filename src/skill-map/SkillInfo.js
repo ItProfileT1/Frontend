@@ -22,8 +22,9 @@ const SkillInfo = ({
 
     const renderProgress = () => {
         if (isProfile) return null;
-
-        if (progress !== undefined) {
+        
+        if  (progress === null) return; 
+        else if (progress !== undefined) {
             return (
                 <div className="block-with-line">
                     <div style={{ fontWeight: 700 }}>Текущий уровень</div>

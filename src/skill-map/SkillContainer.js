@@ -56,7 +56,7 @@ const SkillElement = ({
     const handleClick = () => {
         onSkillClick(id, name, description, progress);
     };
-
+    
     const renderSkillLevels = (progress) => {
         if (progress <= 1) {
             return <div className={`skill-level skill-level-${progress}`} />;

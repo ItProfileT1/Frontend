@@ -26,32 +26,36 @@ const App = () => {
     };
 
     const fetchUserProfile = async () => {
-        const url = "http://localhost:8080/api/v1/specialists/profile";
         const authToken = localStorage.getItem("authToken");
-        const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
-        const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
+        const role = localStorage.getItem("userRole");
 
-        if (isAdmin || isMaster) {
-            renderPage("main");
-            return;
+        if (role === "ROLE_ADMIN" || role === "ROLE_MASTER") {
+            return renderPage("main");
         }
 
         try {
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                "http://localhost:8080/api/v1/specialists/profile",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (response.status === 404) {
-                renderPage("register-profile");
-            } else if (response.ok) {
+                return renderPage("register-profile");
+            }
+
+            if (response.ok) {
                 const data = await response.json();
                 setProfileData(data);
-                renderPage("main");
+                return renderPage("main");
             }
+
+            throw new Error("Failed to fetch profile");
         } catch (error) {
             console.error("Ошибка при получении профиля:", error);
             handleLogout();
@@ -61,6 +65,7 @@ const App = () => {
     const fetchSkills = useCallback(async (type) => {
         const url = `http://localhost:8080/api/v1/skills?type=${type}`;
         const authToken = localStorage.getItem("authToken");
+        const isUser = localStorage.getItem("userRole") === "ROLE_USER";
 
         try {
             const response = await fetch(url, {
@@ -69,61 +74,117 @@ const App = () => {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-            if (!response.ok) {
-                throw new Error("Ошибка при загрузке навыков");
-            }
+
+            if (!response.ok) throw new Error("Ошибка при загрузке навыков");
+
             const data = await response.json();
-
-            const transformSkillsData = async (data) => {
-                const skillsWithCategory = {};
-                const skillsWithoutCategory = [];
-
-                data.forEach((skill) => {
-                    if (skill.category && skill.category.id !== null) {
-                        const categoryId = skill.category.id;
-                        if (!skillsWithCategory[categoryId]) {
-                            skillsWithCategory[categoryId] = {
-                                categoryResponse: {
-                                    id: skill.category.id,
-                                    name: skill.category.name,
-                                },
-                                skillResponses: [],
-                            };
-                        }
-                        skillsWithCategory[categoryId].skillResponses.push({
-                            id: skill.id,
-                            name: skill.name,
-                            description: skill.description,
-                            progress: skill.progress || 0,
-                        });
-                    } else {
-                        skillsWithoutCategory.push({
-                            id: skill.id,
-                            name: skill.name,
-                            description: skill.description,
-                            progress: skill.progress || 0,
-                        });
-                    }
-                });
-
-                Object.keys(skillsWithCategory).forEach((categoryId) => {
-                    skillsWithCategory[categoryId].skillResponses.sort(
-                        (a, b) => a.id - b.id
-                    );
-                });
-
-                skillsWithoutCategory.sort((a, b) => a.id - b.id);
-
-                return {
-                    skillsWithCategory: Object.values(skillsWithCategory),
-                    skillsWithoutCategory,
-                };
-            };
-            return await transformSkillsData(data);
+            return await transformSkillsData(data, isUser, authToken);
         } catch (error) {
             console.error("Ошибка при получении навыков:", error);
         }
     }, []);
+
+    const transformSkillsData = async (data, isUser, authToken) => {
+        const skillsWithCategory = {};
+        const skillsWithoutCategory = [];
+
+        if (isUser) {
+            const userProfileData = await fetchUserProfileData(authToken);
+            const userSkillLevels = getUserSkillLevels(userProfileData);
+
+            data.forEach((skill) =>
+                categorizeSkill(
+                    skill,
+                    userSkillLevels,
+                    skillsWithCategory,
+                    skillsWithoutCategory
+                )
+            );
+        } else {
+            data.forEach((skill) =>
+                categorizeSkill(
+                    skill,
+                    null,
+                    skillsWithCategory,
+                    skillsWithoutCategory
+                )
+            );
+        }
+
+        sortSkills(skillsWithCategory, skillsWithoutCategory);
+        return {
+            skillsWithCategory: Object.values(skillsWithCategory),
+            skillsWithoutCategory,
+        };
+    };
+
+    const fetchUserProfileData = async (authToken) => {
+        const userProfileResponse = await fetch(
+            "http://localhost:8080/api/v1/specialists/profile",
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        if (!userProfileResponse.ok)
+            throw new Error("Ошибка при получении профиля");
+        return await userProfileResponse.json();
+    };
+
+    const getUserSkillLevels = (userProfileData) => {
+        return userProfileData.skillLevelResponses.reduce((acc, skillLevel) => {
+            acc[skillLevel.skill.id] = skillLevel.level?.numericValue ?? null;
+            return acc;
+        }, {});
+    };
+
+    const categorizeSkill = (
+        skill,
+        userSkillLevels,
+        skillsWithCategory,
+        skillsWithoutCategory
+    ) => {
+        const progress = userSkillLevels ? userSkillLevels[skill.id] : null;
+
+        if (skill.category && skill.category.id !== null) {
+            const categoryId = skill.category.id;
+            if (!skillsWithCategory[categoryId]) {
+                skillsWithCategory[categoryId] = {
+                    categoryResponse: {
+                        id: skill.category.id,
+                        name: skill.category.name,
+                    },
+                    skillResponses: [],
+                };
+            }
+            skillsWithCategory[categoryId].skillResponses.push({
+                id: skill.id,
+                name: skill.name,
+                description: skill.description,
+                progress,
+            });
+        } else {
+            skillsWithoutCategory.push({
+                id: skill.id,
+                name: skill.name,
+                description: skill.description,
+                progress,
+            });
+        }
+    };
+
+    const sortSkills = (skillsWithCategory, skillsWithoutCategory) => {
+        Object.keys(skillsWithCategory).forEach((categoryId) => {
+            skillsWithCategory[categoryId].skillResponses.sort(
+                (a, b) => a.id - b.id
+            );
+        });
+        skillsWithoutCategory.sort((a, b) => a.id - b.id);
+    };
 
     const handleLogout = () => {
         setProfileData(null);
