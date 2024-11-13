@@ -31,7 +31,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
             label: "Посмотреть карту<br/>Софт скиллов",
             action: "viewSoftSkills",
         },
-        { label: "Перейти к оценке", action: "goToRating" },
+        { label: "Перейти к оценке", action: "assessoryRating" },
         { label: "Выйти", action: "logout" },
     ];
 
@@ -45,10 +45,10 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
 
     const masterButtons = [
         { label: "Список сотрудников", action: "viewEmployees" },
-        {
-            label: "Список сотрудников<br/>на оценку",
-            action: "viewEmployeesForRating",
-        },
+        // {
+        //     label: "Список сотрудников<br/>на оценку",
+        //     action: "viewEmployeesForRating",
+        // },
         { label: "Просмотр оценок", action: "viewRatings" },
         { label: "Выйти", action: "logout" },
     ];
@@ -114,8 +114,9 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         createUser: () => onPageChange("register"),
         editPositions: () => onPageChange("position"),
         viewEmployees: () => onPageChange("show-workers"),
-        viewEmployeesForRating: () => onPageChange("show-workers"),
-        viewRatings: () => onPageChange("rating"),
+        assessoryRating: () => onPageChange("assessory-rating"),
+        // viewEmployeesForRating: () => onPageChange("show-workers"),
+        // viewRatings: () => onPageChange("rating"),
         default: (action) => console.log(`Unknown action: ${action}`),
     };
 

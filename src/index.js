@@ -11,6 +11,7 @@ import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/900.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import IntegrationTechRadar from "./integration/TechRadar";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -36,6 +37,7 @@ function ZoomedApp() {
 root.render(
     <React.StrictMode>
         <ZoomedApp />
+        {/* <IntegrationTechRadar/> */}
     </React.StrictMode>
 );
 

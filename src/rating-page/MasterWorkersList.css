@@ -6,16 +6,16 @@
     justify-content: space-between;
     align-items: center;
     height: 650px;
-    position: absolute; 
-    top: 50%; 
+    position: absolute;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.master-workers-list-page>div:first-child {
-display: flex;
-width: 100%;
-justify-content: space-between;
+.master-workers-list-page > div:first-child {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .master-workers-list-page span {
@@ -42,7 +42,6 @@ justify-content: space-between;
     height: 20px;
     width: 420px;
 }
-
 
 .master-workers-list-static,
 .master-worker-skills-list-static,
@@ -108,7 +107,7 @@ justify-content: space-between;
 
 .master-worker-elem:not(:first-child),
 .master-worker-skill-elem:not(:first-child),
-.master-assessors-elem:not(:first-child)  {
+.master-assessors-elem:not(:first-child) {
     margin-top: 5px;
 }
 
@@ -139,7 +138,7 @@ justify-content: space-between;
 }
 
 .master-list-checked span {
-font-weight: 600;
+    font-weight: 600;
 }
 
 .master-list-button-wrapper {

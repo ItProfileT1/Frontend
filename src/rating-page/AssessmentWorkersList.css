@@ -1,0 +1,169 @@
+.assessment-workers-list-page {
+    user-select: none;
+    width: 1250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 675px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.assessment-workers-list-page span {
+    font-weight: 800;
+}
+
+.assessment-workers-list-page>div:first-child {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.assessment-workers-list,
+.assessment-skills-list {
+display: flex;
+    flex-direction: column;
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    padding: 10px;
+    height: 570px;
+    width: 430px;
+}
+
+.assessment-skills-list {
+    width: 600px;
+}
+
+.assessment-workers-list > div:first-child,
+.assessment-skills-list > div:first-child {
+    text-align: center;
+    margin-bottom: 5px;
+    height: 20px;
+    width: 420px;
+}
+
+.assessment-skills-list > div:first-child {
+    width: 590px;
+}
+
+.assessment-workers-list-static,
+.assessment-skills-list-static {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    height: 40px;
+    width: 400px;
+    border-radius: 5px 5px 0 0;
+    background: #2c96b3;
+    padding: 0 10px;
+}
+
+.assessment-skills-list-static {
+    width: 570px;
+    height: 50px;
+}
+
+.assessment-workers-list-scrollable,
+.assessment-skills-list-scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 500px;
+}
+
+.assessment-skills-list-scrollable {
+    height: 490px;
+}
+
+.assessment-workers-list-scrollable::-webkit-scrollbar,
+.assessment-skills-list-scrollable::-webkit-scrollbar {
+    width: 5px;
+    background: #222222;
+    border-radius: 15px;
+}
+
+.assessment-workers-list-scrollable::-webkit-scrollbar-thumb,
+.assessment-skills-list-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #61dafb 0%, #1dcbf9 100%);
+    border-radius: 15px;
+}
+
+.assessment-workers-list-wrapper,
+.assessment-skills-list-wrapper {
+    min-height: 500px;
+    width: 410px;
+    padding: 0 5px;
+    white-space: nowrap;
+    background: #2c96b3;
+    border-radius: 0 0 5px 5px;
+}
+
+
+.assessment-skills-list-wrapper {
+    width: 580px;
+    min-height: 490px;
+}
+
+.assessment-worker-elem {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 10px;
+    width: 390px;
+    cursor: pointer;
+    background: linear-gradient(225.72deg, #c3cbdc 0%, #edf1f4 100%) 0% 0% /
+        300% 100%;
+}
+
+.assessment-worker-elem:hover {
+    animation: 2s ease 0s infinite normal none running selected;
+}
+
+.assessment-worker-elem:active {
+    background: linear-gradient(225.72deg, #c3cbdc9d 0%, #c3cbdc9d 100%) 0% 0% /
+    300% 100%;
+}
+
+.assessment-worker-elem:not(:first-child)  {
+    margin-top: 5px;
+}
+
+.assessment-skill-elem:not(:first-child)  {
+    margin-top: 10px;
+}
+
+.assessment-skill-elem {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    padding: 5px;
+    width: 570px;
+}
+
+.assessment-skill-elem select {
+    /* background-color: #33bee3; */
+    color: #222222;
+    /* border: none; */
+    cursor: pointer;
+    text-align: center;
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    border-radius: 5px;
+}
+
+.assessment-list-button-wrapper {
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    padding: 10px;
+    width: 430px;
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,3 +1,2 @@
-# Frontend
-Для запуска введите `docker-compose up`\
+# IT-Profile Frontend
 Сайт: http://localhost:3000
