@@ -1,0 +1,27 @@
+.techradar-page {
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 900px;
+}
+
+.techradar-page iframe {
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+}
+
+.techradar-button-wrapper {
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    padding: 15px 30px;
+}
+
+.techradar-page button {
+    font-size: 20px;
+}

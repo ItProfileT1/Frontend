@@ -40,6 +40,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         { label: "Создать пользователя", action: "createUser" },
         { label: "Изменить карту<br/>Хард скиллов", action: "editHardSkills" },
         { label: "Изменить карту<br/>Софт скиллов", action: "editSoftSkills" },
+        { label: "Интеграция<br/>Техрадар", action: "techRadarIntegration" },
         { label: "Выйти", action: "logout" },
     ];
 
@@ -116,6 +117,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         viewEmployees: () => onPageChange("show-workers"),
         assessoryRating: () => onPageChange("assessory-rating"),
         viewRatings: () => onPageChange("assessory-rating"),
+        techRadarIntegration: () => onPageChange("techradar-integration"),
         default: (action) => console.log(`Unknown action: ${action}`),
     };
 

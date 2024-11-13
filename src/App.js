@@ -3,11 +3,11 @@ import Auth from "./auth/Auth";
 import RegisterProfile from "./auth/RegisterProfile";
 import MainPage from "./main-page/MainPage";
 import SkillPage from "./skill-map/SkillPage";
-import RatingPage from "./rating-page/RatingPage";
 import Profile from "./profile/Profile";
 import SkillPosition from "./skill-map/SkillPosition";
 import MasterWorkersList from "./rating-page/MasterWorkersList";
 import AssessmentWorkersList from "./rating-page/AssessmentWorkersList";
+import IntegrationTechRadar from "./integration/TechRadar";
 
 const App = () => {
     const [profileData, setProfileData] = useState(null);
@@ -254,12 +254,12 @@ const App = () => {
                         />
                     </div>
                 );
-            case "rating":
-                return <RatingPage onPageChange={renderPage} />;
             case "show-workers":
                 return <MasterWorkersList onPageChange={renderPage} />;
             case "assessory-rating":
                 return <AssessmentWorkersList onPageChange={renderPage} />;
+            case "techradar-integration":
+                return <IntegrationTechRadar onPageChange={renderPage}/>
             default:
                 return <>{handleLogout()}</>;
         }
