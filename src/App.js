@@ -66,7 +66,6 @@ const App = () => {
         const url = `http://localhost:8080/api/v1/skills?type=${type}`;
         const authToken = localStorage.getItem("authToken");
         const isUser = localStorage.getItem("userRole") === "ROLE_USER";
-
         try {
             const response = await fetch(url, {
                 method: "GET",
@@ -87,8 +86,9 @@ const App = () => {
     const transformSkillsData = async (data, isUser, authToken) => {
         const skillsWithCategory = {};
         const skillsWithoutCategory = [];
+        const currentPage = localStorage.getItem("currentPage");
 
-        if (isUser) {
+        if (isUser && currentPage !== "register-profile") {
             const userProfileData = await fetchUserProfileData(authToken);
             const userSkillLevels = getUserSkillLevels(userProfileData);
 
