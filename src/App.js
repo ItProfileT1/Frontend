@@ -6,7 +6,7 @@ import SkillPage from "./skill-map/SkillPage";
 import RatingPage from "./rating-page/RatingPage";
 import Profile from "./profile/Profile";
 import SkillPosition from "./skill-map/SkillPosition";
-import AdminWorkersList from "./admin/AdminWorkerList";
+import MasterWorkersList from "./rating-page/MasterWorkersList";
 
 const App = () => {
     const [profileData, setProfileData] = useState(null);
@@ -29,8 +29,10 @@ const App = () => {
         const url = "http://localhost:8080/api/v1/specialists/profile";
         const authToken = localStorage.getItem("authToken");
         const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
+        const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
 
-        if (isAdmin) {
+
+        if (isAdmin || isMaster) {
             renderPage("main");
             return;
         }
@@ -127,6 +129,7 @@ const App = () => {
         localStorage.removeItem("authToken");
         localStorage.removeItem("userRole");
         localStorage.removeItem("currentPage");
+        localStorage.removeItem("pageData");
         setCurrentPage("login");
         setPageData(null);
     };
@@ -139,7 +142,7 @@ const App = () => {
     // handleLogout();
     const renderCurrentPage = () => {
         const authToken = localStorage.getItem("authToken");
-
+        console.log(pageData)
         if (!authToken) {
             return <Auth onLoginSuccess={handleLoginSuccess} />;
         }
@@ -176,13 +179,14 @@ const App = () => {
                             pageToRender={pageData.pageToRender}
                             typeId={pageData.typeId}
                             fetchSkills={fetchSkills}
+                            addSkillId={pageData?.addSkillId}
                         />
                     </div>
                 );
             case "rating":
                 return <RatingPage onPageChange={renderPage} />;
             case "show-workers":
-                return <AdminWorkersList onPageChange={renderPage} />
+                return <MasterWorkersList onPageChange={renderPage} />
             default:
                 return <>{handleLogout()}</>;
         }

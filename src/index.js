@@ -11,14 +11,12 @@ import "@fontsource/montserrat/700.css";
 import "@fontsource/montserrat/900.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import RatingPage from "./rating-page/RatingPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
     <React.StrictMode>
         <App />
-        {/* <RatingPage workersData={workersData}/> */}
     </React.StrictMode>
 );
 

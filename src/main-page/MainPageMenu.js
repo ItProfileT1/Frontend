@@ -20,6 +20,7 @@ const ButtonRow = ({ buttons, handleClick }) => (
 
 const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
     const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
+    const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
 
     const userButtons = [
         { label: "Посмотреть карту<br/>Хард скиллов", action: 1 },
@@ -30,16 +31,24 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
 
     const adminButtons = [
         { label: "Редактировать должности", action: 8 },
-        { label: "Список сотрудников", action: 10 },
         { label: "Создать пользователя", action: 7 },
         { label: "Изменить карту<br/>Хард скиллов", action: 4 },
         { label: "Изменить карту<br/>Софт скиллов", action: 5 },
+        { label: "Выйти", action: 0 },
+    ];
+
+    const masterButtons = [
+        { label: "Список сотрудников", action: 10 },
         { label: "Список сотрудников<br/>на оценку", action: 6 },
         { label: "Просмотр оценок", action: 9 },
         { label: "Выйти", action: 0 },
     ];
 
-    const buttonsToDisplay = isAdmin ? adminButtons : userButtons;
+    const buttonsToDisplay = isAdmin
+        ? adminButtons
+        : isMaster
+        ? masterButtons
+        : userButtons;
 
     const fetchUserProfile = async () => {
         const url = "http://localhost:8080/api/v1/specialists/profile";
@@ -86,7 +95,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
                     typeId: "Hard",
                     userData: null,
                 };
-                console.log(data)
+                console.log(data);
                 onPageChange("skill", data);
                 return;
             case 5:
@@ -104,9 +113,9 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
             case 8:
                 onPageChange("position");
                 return;
-
             case 10:
-                onPageChange("show-workers")
+                onPageChange("show-workers");
+                return;
             default:
                 console.log(action);
         }
@@ -126,7 +135,13 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
 
     return (
         <div className="main-page-menu">
-            <div>{isAdmin ? "Меню администратора" : "Меню пользователя"}</div>
+            <div>
+                {isAdmin
+                    ? "Меню администратора"
+                    : isMaster
+                    ? "Меню начальника"
+                    : "Меню пользователя"}
+            </div>
             {buttonRows}
         </div>
     );

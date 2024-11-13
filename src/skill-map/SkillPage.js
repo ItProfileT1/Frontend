@@ -107,6 +107,7 @@ const SkillPage = ({
                     name={selectedSkill.name}
                     description={selectedSkill.description}
                     progress={selectedSkill.progress}
+                    addSkillId={addSkillId}
                 />
             )}
             <div className="skill-page-filler" hidden={isSkillInfoShown}></div>

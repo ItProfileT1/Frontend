@@ -1,0 +1,153 @@
+.master-workers-list-page {
+    user-select: none;
+    display: flex;
+    width: 1400px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 650px;
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.master-workers-list-page>div:first-child {
+display: flex;
+width: 100%;
+justify-content: space-between;
+}
+
+.master-workers-list-page span {
+    font-weight: 800;
+}
+.master-workers-list,
+.master-worker-skills-list,
+.master-assessors-list {
+    display: flex;
+    flex-direction: column;
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    padding: 10px;
+    height: 570px;
+    width: 430px;
+}
+
+.master-workers-list > div:first-child,
+.master-worker-skills-list > div:first-child,
+.master-assessors-list > div:first-child {
+    text-align: center;
+    margin-bottom: 5px;
+    height: 20px;
+    width: 420px;
+}
+
+
+.master-workers-list-static,
+.master-worker-skills-list-static,
+.master-assessors-list-static {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    height: 40px;
+    width: 400px;
+    border-radius: 5px 5px 0 0;
+    background: #2c96b3;
+    padding: 0 10px;
+}
+
+.master-workers-list-scrollable,
+.master-worker-skills-list-scrollable,
+.master-assessors-list-scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 500px;
+}
+
+.master-workers-list-scrollable::-webkit-scrollbar,
+.master-worker-skills-list-scrollable::-webkit-scrollbar,
+.master-assessors-list-scrollable::-webkit-scrollbar {
+    width: 5px;
+    background: #222222;
+    border-radius: 15px;
+}
+
+.master-workers-list-scrollable::-webkit-scrollbar-thumb,
+.master-worker-skills-list-scrollable::-webkit-scrollbar-thumb,
+.master-assessors-list-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #61dafb 0%, #1dcbf9 100%);
+    border-radius: 15px;
+}
+
+.master-workers-list-wrapper,
+.master-worker-skills-list-wrapper,
+.master-assessors-list-wrapper {
+    min-height: 500px;
+    width: 410px;
+    padding: 0 5px;
+    white-space: nowrap;
+    background: #2c96b3;
+    border-radius: 0 0 5px 5px;
+}
+
+.master-worker-elem {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 10px;
+    width: 390px;
+    background: linear-gradient(225.72deg, #c3cbdc 0%, #edf1f4 100%) 0% 0% /
+        300% 100%;
+}
+
+.master-worker-elem:hover {
+    animation: 2s ease 0s infinite normal none running selected;
+}
+
+.master-worker-elem:not(:first-child),
+.master-worker-skill-elem:not(:first-child),
+.master-assessors-elem:not(:first-child)  {
+    margin-top: 5px;
+}
+
+.master-worker-list-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.master-worker-skill-elem input,
+.master-assessors-elem input {
+    margin-right: 10px;
+}
+
+.master-worker-skill-elem,
+.master-assessors-elem {
+    display: flex;
+    align-items: flex-start;
+    white-space: normal;
+}
+
+.master-worker-skill-elem span,
+.master-assessors-elem span {
+    font-weight: 500;
+}
+
+.master-assessors-elem span {
+    text-transform: capitalize;
+}
+
+.master-list-checked span {
+font-weight: 600;
+}
+
+.master-list-button-wrapper {
+    background: #e1e4e5;
+    border: 4px #33bee3 solid;
+    border-radius: 20px;
+    padding: 10px;
+    width: 430px;
+    display: flex;
+    justify-content: space-between;
+}

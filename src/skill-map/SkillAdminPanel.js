@@ -27,7 +27,7 @@ const AddSkill = ({
                 setNewSkill({ ...newSkill, categoryId: e.target.value })
             }
         >
-            <option value="">Выберите категорию</option>
+            <option value="null">Выберите категорию</option>
             {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -41,7 +41,7 @@ const AddSkill = ({
             <button
                 className="blue-button"
                 onClick={handleAddSkill}
-                disabled={!newSkill.name || !newSkill.categoryId}
+                disabled={!newSkill.name}
             >
                 Добавить
             </button>
@@ -138,6 +138,7 @@ const SkillAdminPanel = ({
     const sendToServer = async (endpoint, data) => {
         const authToken = localStorage.getItem("authToken");
         const url = `http://localhost:8080/api/v1/${endpoint}`;
+        console.log(data)
         try {
             const response = await fetch(url, {
                 method: "POST",
