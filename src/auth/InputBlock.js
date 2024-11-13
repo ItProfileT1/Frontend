@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputBlock = ({ id, label, value, onChange, data }) => { 
+const InputBlock = ({ id, label, value, onChange, data }) => {
     const iconPaths = {
         name: "login",
         surname: "login",
@@ -20,102 +20,73 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
     const handleBlur = () =>
         (document.getElementById(`${id}-input-block`).style.opacity = 0.7);
 
+    const renderDateInput = () => (
+        <input
+            id={id}
+            name={id}
+            placeholder="дата рождения"
+            type="date"
+            onChange={onChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+        />
+    );
+
+    const renderSelectInput = (options) => (
+        <select
+            id={id}
+            name={id}
+            onChange={onChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+        >
+            {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+
+    const renderTextInput = () => (
+        <>
+            <div className="auth-input-text">{label}</div>
+            <input
+                placeholder="Ввод..."
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                autoComplete="off"
+                spellCheck="off"
+                id={id}
+                name={id}
+                value={value}
+                onChange={onChange}
+                required
+            />
+        </>
+    );
+
     const renderInputField = () => {
-        if (id === "birthday") {
-            return (
-                <input
-                    id={id}
-                    name={id}
-                    placeholder="дата рождения"
-                    type="date"
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                />
-            );
-        }
+        if (id === "birthday") return renderDateInput();
 
-        if (id === "sex") {
-            return (
-                <select
-                    id={id}
-                    name={id}
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                >
-                    <option value="Мужской">Мужской</option>
-                    <option value="Женский">Женский</option>
-                </select>
-            );
-        }
+        if (id === "sex")
+            return renderSelectInput([
+                { value: "Мужской", label: "Мужской" },
+                { value: "Женский", label: "Женский" },
+            ]);
 
-        if (id === "job") {
-            return (
-                <select
-                    id={id}
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                >
-                    {data.map((elem) => (
-                        <option key={elem.id} value={elem.id}>
-                            {elem.name}
-                        </option>
-                    ))}
-                </select>
+        if (id === "job" || id === "position")
+            return renderSelectInput(
+                data.map((elem) => ({ value: elem.id, label: elem.name }))
             );
-        }
 
-        if (id === "position") {
-            return (
-                <select
-                    id={id}
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                >
-                    {data.map((elem) => (
-                        <option key={elem.id} value={elem.id}>
-                            {elem.name}
-                        </option>
-                    ))}
-                </select>
-            );
-        }
+        if (id === "skills")
+            return renderSelectInput([
+                { value: "Hard", label: "Отобразить хард навыки" },
+                { value: "Soft", label: "Отобразить софт навыки" },
+            ]);
 
-        if (id === "skills") {
-            return (
-                <select
-                    id={id}
-                    name={id}
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                >
-                    <option value="Hard">Отобразить хард навыки</option>
-                    <option value="Soft">Отобразить софт навыки</option>
-                </select>
-            );
-        }
-
-        return (
-            <>
-                <div className="auth-input-text">{label}</div>
-                <input
-                    placeholder="Ввод..."
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    autoComplete="off"
-                    spellCheck="off"
-                    id={id}
-                    name={id}
-                    value={value}
-                    onChange={onChange}
-                    required
-                />
-            </>
-        );
+        return renderTextInput();
     };
 
     return (
@@ -126,15 +97,15 @@ const InputBlock = ({ id, label, value, onChange, data }) => {
         >
             <div className="auth-input-icon">
                 <img
-                    src={`${process.env.PUBLIC_URL}/assets/auth/${
-                        iconPaths[id] 
-                    }.svg`}
+                    src={`${process.env.PUBLIC_URL}/assets/auth/${iconPaths[id]}.svg`}
                     alt=""
                 />
             </div>
             <div className="auth-input-static">
                 {renderInputField()}
-                {id !== "birthday" && id !== "sex" && id !== "job" && id !== "position" && id !== "skills" && (
+                {["birthday", "sex", "job", "position", "skills"].includes(
+                    id
+                ) || (
                     <img
                         src={`${process.env.PUBLIC_URL}/assets/auth/${id}-static.svg`}
                         alt=""

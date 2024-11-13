@@ -3,7 +3,12 @@ import "./SkillMap.css";
 import SkillContainer from "./SkillContainer";
 import SkillControls from "./SkillControls";
 
-const SkillMap = ({ initialSkillsData, onSkillSelect, isEdit, selectedSkills }) => {
+const SkillMap = ({
+    initialSkillsData,
+    onSkillSelect,
+    isEdit,
+    selectedSkills,
+}) => {
     const [scale, setScale] = useState(1);
     const [translate, setTranslate] = useState({ x: 0, y: 0 });
 

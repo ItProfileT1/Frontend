@@ -14,7 +14,7 @@ const SkillPage = ({
     addSkillId,
     typeId,
     handleLinkToPosition,
-    selectedPositionId
+    selectedPositionId,
 }) => {
     const [skillsData, setSkillsData] = useState({
         skillsWithCategory: [],
@@ -134,7 +134,7 @@ const SkillPage = ({
             )}
             <div className="skill-page-filler" hidden={isSkillInfoShown}></div>
         </>
-    )
+    );
 
     const renderPage = (page) => {
         switch (page) {
@@ -144,8 +144,8 @@ const SkillPage = ({
                 return <ProfileView />;
             case "skills":
                 return <SkillsView />;
-            case "position": 
-                return <PositionView />
+            case "position":
+                return <PositionView />;
             default:
                 return null;
         }

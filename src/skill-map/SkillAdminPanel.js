@@ -138,7 +138,6 @@ const SkillAdminPanel = ({
     const sendToServer = async (endpoint, data) => {
         const authToken = localStorage.getItem("authToken");
         const url = `http://localhost:8080/api/v1/${endpoint}`;
-        console.log(data)
         try {
             const response = await fetch(url, {
                 method: "POST",

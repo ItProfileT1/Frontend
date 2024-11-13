@@ -9,7 +9,7 @@ const SkillContainer = ({
     isEdit,
 }) => {
     if (!skillsWithCategory || !skillsWithoutCategory) return <></>;
-    
+
     const renderSkills = (skills, categoryName) => (
         <div className="skills-column">
             {categoryName && (
@@ -59,9 +59,7 @@ const SkillElement = ({
 
     const renderSkillLevels = (progress) => {
         if (progress <= 1) {
-            return (
-                <div className={`skill-level skill-level-${progress}`} />
-            );
+            return <div className={`skill-level skill-level-${progress}`} />;
         }
 
         return Array.from({ length: progress }, (_, i) => (

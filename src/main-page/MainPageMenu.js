@@ -23,25 +23,34 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
     const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
 
     const userButtons = [
-        { label: "Посмотреть карту<br/>Хард скиллов", action: 1 },
-        { label: "Посмотреть карту<br/>Софт скиллов", action: 2 },
-        { label: "Перейти к оценке", action: 3 },
-        { label: "Выйти", action: 0 },
+        {
+            label: "Посмотреть карту<br/>Хард скиллов",
+            action: "viewHardSkills",
+        },
+        {
+            label: "Посмотреть карту<br/>Софт скиллов",
+            action: "viewSoftSkills",
+        },
+        { label: "Перейти к оценке", action: "goToRating" },
+        { label: "Выйти", action: "logout" },
     ];
 
     const adminButtons = [
-        { label: "Редактировать должности", action: 8 },
-        { label: "Создать пользователя", action: 7 },
-        { label: "Изменить карту<br/>Хард скиллов", action: 4 },
-        { label: "Изменить карту<br/>Софт скиллов", action: 5 },
-        { label: "Выйти", action: 0 },
+        { label: "Редактировать должности", action: "editPositions" },
+        { label: "Создать пользователя", action: "createUser" },
+        { label: "Изменить карту<br/>Хард скиллов", action: "editHardSkills" },
+        { label: "Изменить карту<br/>Софт скиллов", action: "editSoftSkills" },
+        { label: "Выйти", action: "logout" },
     ];
 
     const masterButtons = [
-        { label: "Список сотрудников", action: 10 },
-        { label: "Список сотрудников<br/>на оценку", action: 6 },
-        { label: "Просмотр оценок", action: 9 },
-        { label: "Выйти", action: 0 },
+        { label: "Список сотрудников", action: "viewEmployees" },
+        {
+            label: "Список сотрудников<br/>на оценку",
+            action: "viewEmployeesForRating",
+        },
+        { label: "Просмотр оценок", action: "viewRatings" },
+        { label: "Выйти", action: "logout" },
     ];
 
     const buttonsToDisplay = isAdmin
@@ -64,65 +73,59 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         return await response.json();
     };
 
-    const handleClick = async (action) => {
-        var data;
-        switch (action) {
-            case 0:
-                onLogout();
-                return;
-            case 1:
-                data = {
-                    initialSkillsData: await fetchSkills("Hard"),
-                    pageToRender: "skills",
-                    typeId: "Hard",
-                    userData: await fetchUserProfile(),
-                };
-                onPageChange("skill", data);
-                return;
-            case 2:
-                data = {
-                    initialSkillsData: await fetchSkills("Soft"),
-                    pageToRender: "skills",
-                    typeId: "Soft",
-                    userData: await fetchUserProfile(),
-                };
-                onPageChange("skill", data);
-                return;
-            case 4:
-                data = {
-                    initialSkillsData: await fetchSkills("Hard"),
-                    pageToRender: "edit",
-                    typeId: "Hard",
-                    userData: null,
-                };
-                console.log(data);
-                onPageChange("skill", data);
-                return;
-            case 5:
-                data = {
-                    initialSkillsData: await fetchSkills("Soft"),
-                    pageToRender: "edit",
-                    typeId: "Soft",
-                    userData: null,
-                };
-                onPageChange("skill", data);
-                return;
-            case 7:
-                onPageChange("register");
-                return;
-            case 8:
-                onPageChange("position");
-                return;
-            case 10:
-                onPageChange("show-workers");
-                return;
-            default:
-                console.log(action);
-        }
+    const actionHandlers = {
+        logout: () => onLogout(),
+        viewHardSkills: async () => {
+            const data = {
+                initialSkillsData: await fetchSkills("Hard"),
+                pageToRender: "skills",
+                typeId: "Hard",
+                userData: await fetchUserProfile(),
+            };
+            onPageChange("skill", data);
+        },
+        viewSoftSkills: async () => {
+            const data = {
+                initialSkillsData: await fetchSkills("Soft"),
+                pageToRender: "skills",
+                typeId: "Soft",
+                userData: await fetchUserProfile(),
+            };
+            onPageChange("skill", data);
+        },
+        editHardSkills: async () => {
+            const data = {
+                initialSkillsData: await fetchSkills("Hard"),
+                pageToRender: "edit",
+                typeId: "Hard",
+                userData: null,
+            };
+            onPageChange("skill", data);
+        },
+        editSoftSkills: async () => {
+            const data = {
+                initialSkillsData: await fetchSkills("Soft"),
+                pageToRender: "edit",
+                typeId: "Soft",
+                userData: null,
+            };
+            onPageChange("skill", data);
+        },
+        createUser: () => onPageChange("register"),
+        editPositions: () => onPageChange("position"),
+        viewEmployees: () => onPageChange("show-workers"),
+        viewEmployeesForRating: () => onPageChange("show-workers"),
+        viewRatings: () => onPageChange("rating"),
+        default: (action) => console.log(`Unknown action: ${action}`),
     };
 
-    const buttonRows = [];
+    const handleClick = (action) => {
+        const handler = actionHandlers[action] || actionHandlers.default;
+        handler();
+    };
 
+    // Разделяем кнопки на строки
+    const buttonRows = [];
     for (let index = 0; index < buttonsToDisplay.length; index += 2) {
         buttonRows.push(
             <ButtonRow

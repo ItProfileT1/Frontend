@@ -28,7 +28,7 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
                         const rolesData = await response.json();
                         rolesData.sort((a, b) => a.id - b.id);
                         setRoles(rolesData);
-                        setSelectedRole(rolesData[0]?.id); 
+                        setSelectedRole(rolesData[0]?.id);
                     }
                 } catch (error) {
                     console.error("Ошибка при получении ролей:", error);
@@ -42,10 +42,10 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
     const handleAdminRegistration = async () => {
         try {
             const url = "http://localhost:8080/api/v1/auth/sign-up";
-            const data = { 
-                username: login, 
-                password: password, 
-                roleId: selectedRole 
+            const data = {
+                username: login,
+                password: password,
+                roleId: selectedRole,
             };
             const authToken = localStorage.getItem("authToken");
 
@@ -91,7 +91,11 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
     const handleClick = isAdmin ? handleAdminRegistration : handleUserLogin;
 
     return (
-        <div className={`auth-panel auth-panel-bg ${isAdmin ? "auth-admin-panel" : ""}`}>
+        <div
+            className={`auth-panel auth-panel-bg ${
+                isAdmin ? "auth-admin-panel" : ""
+            }`}
+        >
             {isAdmin && (
                 <div className="auth-close">
                     <img

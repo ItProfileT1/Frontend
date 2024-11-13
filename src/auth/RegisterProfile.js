@@ -22,9 +22,9 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
     const addSkillId = (skillId) => {
         setSelectedSkills((prevSelectedSkills) => {
             const currentSelectedSkills =
-                prevSelectedSkills[selectedPositionId];
-                const updatedSkills = currentSelectedSkills.includes(skillId)
-                ? currentSelectedSkills.filter(id => id !== skillId)
+                prevSelectedSkills[selectedPositionId] || [];
+            const updatedSkills = currentSelectedSkills.includes(skillId)
+                ? currentSelectedSkills.filter((id) => id !== skillId)
                 : [...currentSelectedSkills, skillId];
 
             return {
@@ -35,7 +35,11 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
     };
 
     const handleClick = async () => {
-        const data = { ...formData, positionId: selectedPositionId, skillsIds: selectedSkills[selectedPositionId] };
+        const data = {
+            ...formData,
+            positionId: selectedPositionId,
+            skillsIds: selectedSkills[selectedPositionId],
+        };
         const url = "http://localhost:8080/api/v1/specialists/profile";
         const authToken = localStorage.getItem("authToken");
 

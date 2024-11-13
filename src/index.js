@@ -13,6 +13,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 const applyZoom = () => {
     const clWidth = (document.documentElement.clientWidth / 1920).toFixed(2);
     const clHeight = (document.documentElement.clientHeight / 1080).toFixed(2);

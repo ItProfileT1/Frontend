@@ -31,7 +31,6 @@ const App = () => {
         const isAdmin = localStorage.getItem("userRole") === "ROLE_ADMIN";
         const isMaster = localStorage.getItem("userRole") === "ROLE_MASTER";
 
-
         if (isAdmin || isMaster) {
             renderPage("main");
             return;
@@ -62,7 +61,7 @@ const App = () => {
     const fetchSkills = useCallback(async (type) => {
         const url = `http://localhost:8080/api/v1/skills?type=${type}`;
         const authToken = localStorage.getItem("authToken");
-    
+
         try {
             const response = await fetch(url, {
                 method: "GET",
@@ -74,11 +73,11 @@ const App = () => {
                 throw new Error("Ошибка при загрузке навыков");
             }
             const data = await response.json();
-    
+
             const transformSkillsData = async (data) => {
                 const skillsWithCategory = {};
                 const skillsWithoutCategory = [];
-    
+
                 data.forEach((skill) => {
                     if (skill.category && skill.category.id !== null) {
                         const categoryId = skill.category.id;
@@ -108,11 +107,13 @@ const App = () => {
                 });
 
                 Object.keys(skillsWithCategory).forEach((categoryId) => {
-                    skillsWithCategory[categoryId].skillResponses.sort((a, b) => a.id - b.id);
+                    skillsWithCategory[categoryId].skillResponses.sort(
+                        (a, b) => a.id - b.id
+                    );
                 });
-    
+
                 skillsWithoutCategory.sort((a, b) => a.id - b.id);
-                
+
                 return {
                     skillsWithCategory: Object.values(skillsWithCategory),
                     skillsWithoutCategory,
@@ -142,7 +143,6 @@ const App = () => {
     // handleLogout();
     const renderCurrentPage = () => {
         const authToken = localStorage.getItem("authToken");
-        console.log(pageData)
         if (!authToken) {
             return <Auth onLoginSuccess={handleLoginSuccess} />;
         }
@@ -168,11 +168,20 @@ const App = () => {
                     />
                 );
             case "position":
-                return <SkillPosition onPageChange={renderPage} fetchSkills={fetchSkills} />;
+                return (
+                    <SkillPosition
+                        onPageChange={renderPage}
+                        fetchSkills={fetchSkills}
+                    />
+                );
             case "skill":
                 return (
                     <div className="user-skill-page">
-                        <Profile userData={pageData?.userData} display_page="skill-page" onPageChange={renderPage}/>
+                        <Profile
+                            userData={pageData?.userData}
+                            display_page="skill-page"
+                            onPageChange={renderPage}
+                        />
                         <SkillPage
                             onPageChange={renderPage}
                             initialSkillsData={pageData.initialSkillsData}
@@ -186,7 +195,7 @@ const App = () => {
             case "rating":
                 return <RatingPage onPageChange={renderPage} />;
             case "show-workers":
-                return <MasterWorkersList onPageChange={renderPage} />
+                return <MasterWorkersList onPageChange={renderPage} />;
             default:
                 return <>{handleLogout()}</>;
         }
