@@ -17,7 +17,7 @@ const MasterWorkersList = ({ onPageChange }) => {
         const fetchWorkers = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:8080/api/v1/specialists",
+                    `http://${localStorage.getItem("apiUrl")}:8080/api/v1/specialists`,
                     {
                         method: "GET",
                         headers: {
@@ -94,7 +94,7 @@ const MasterWorkersList = ({ onPageChange }) => {
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/v1/assessment-processes",
+                `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-processes`,
                 {
                     method: "POST",
                     headers: {

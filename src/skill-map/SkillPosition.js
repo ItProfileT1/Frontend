@@ -26,7 +26,7 @@ const SkillPosition = ({ onPageChange, fetchSkills }) => {
 
     const fetchPositions = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/positions", {
+            const response = await fetch(`http://${localStorage.getItem("apiUrl")}:8080/api/v1/positions`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -69,7 +69,7 @@ const SkillPosition = ({ onPageChange, fetchSkills }) => {
 
     const handleAddPosition = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/positions", {
+            const response = await fetch(`http://${localStorage.getItem("apiUrl")}:8080/api/v1/positions`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -92,7 +92,7 @@ const SkillPosition = ({ onPageChange, fetchSkills }) => {
 
     const handleDeletePosition = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/positions/${selectedPositionId}`, {
+            const response = await fetch(`http://${localStorage.getItem("apiUrl")}:8080/api/v1/positions/${selectedPositionId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -120,7 +120,7 @@ const SkillPosition = ({ onPageChange, fetchSkills }) => {
         }
 
         try {
-            const url = `http://localhost:8080/api/v1/positions/${selectedPositionId}/skills`;
+            const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/positions/${selectedPositionId}/skills`;
             const authToken = localStorage.getItem("authToken");
             const response = await fetch(url, {
                 method: "POST",

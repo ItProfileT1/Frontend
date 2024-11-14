@@ -40,7 +40,7 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
             positionId: selectedPositionId,
             skillsIds: selectedSkills[selectedPositionId],
         };
-        const url = "http://localhost:8080/api/v1/specialists/profile";
+        const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/specialists/profile`;
         const authToken = localStorage.getItem("authToken");
 
         try {
@@ -56,7 +56,7 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
             if (response.ok) {
                 onPageChange("main");
             } else {
-                console.log(data);
+                console.log(response);
                 console.error("Ошибка при создании профиля");
             }
         } catch (error) {
@@ -86,7 +86,7 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
     const fetchPositions = async () => {
         try {
             const response = await fetch(
-                "http://localhost:8080/api/v1/positions",
+                `http://${localStorage.getItem("apiUrl")}:8080/api/v1/positions`,
                 {
                     method: "GET",
                     headers: {

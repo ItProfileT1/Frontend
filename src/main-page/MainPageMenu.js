@@ -61,7 +61,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         : userButtons;
 
     const fetchUserProfile = async () => {
-        const url = "http://localhost:8080/api/v1/specialists/profile";
+        const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/specialists/profile`;
         const authToken = localStorage.getItem("authToken");
         const response = await fetch(url, {
             method: "GET",

@@ -107,7 +107,7 @@ const SkillAdminPanel = ({
 
     const fetchCategories = async () => {
         const authToken = localStorage.getItem("authToken");
-        const url = "http://localhost:8080/api/v1/skill_categories";
+        const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/skill_categories`;
 
         try {
             const response = await fetch(url, {
@@ -137,7 +137,7 @@ const SkillAdminPanel = ({
 
     const sendToServer = async (endpoint, data) => {
         const authToken = localStorage.getItem("authToken");
-        const url = `http://localhost:8080/api/v1/${endpoint}`;
+        const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/${endpoint}`;
         try {
             const response = await fetch(url, {
                 method: "POST",

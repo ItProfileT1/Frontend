@@ -83,7 +83,7 @@ const IntegrationTechRadar = ({ onPageChange }) => {
         const fetchTechRadarData = async () => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const url = "http://localhost:8080/api/v1/tech_radar";
+                const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/tech_radar`;
 
                 const response = await fetch(url, {
                     method: "GET",
@@ -128,7 +128,7 @@ const IntegrationTechRadar = ({ onPageChange }) => {
             {loading ? <></> : null}
             <iframe
                 id="iframe"
-                src="http://localhost:5173/share"
+                src={`http://${localStorage.getItem("apiUrl")}:5173/share`}
                 onLoad={() => setLoading(false)}
                 width="1500px"
                 height="800px"

@@ -13,7 +13,7 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
         const fetchRoles = async () => {
             if (isAdmin) {
                 try {
-                    const url = "http://localhost:8080/api/v1/auth/roles";
+                    const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/auth/roles`;
                     const authToken = localStorage.getItem("authToken");
 
                     const response = await fetch(url, {
@@ -41,7 +41,7 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
 
     const handleAdminRegistration = async () => {
         try {
-            const url = "http://localhost:8080/api/v1/auth/sign-up";
+            const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/auth/sign-up`;
             const data = {
                 username: login,
                 password: password,
@@ -68,7 +68,7 @@ const Auth = ({ onLoginSuccess, onPageChange }) => {
 
     const handleUserLogin = async () => {
         try {
-            const url = "http://localhost:8080/api/v1/auth/sign-in";
+            const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/auth/sign-in`;
             const data = { username: login, password: password };
 
             const response = await fetch(url, {

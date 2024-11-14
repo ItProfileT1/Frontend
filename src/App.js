@@ -15,9 +15,9 @@ const App = () => {
         localStorage.getItem("currentPage") || "login"
     );
     const [pageData, setPageData] = useState(null);
-    localStorage.setItem("apiUrl",  "$}")
-    const myGlobalVar = process.env.REACT_APP_API_URL;
-    console.log(myGlobalVar)
+    localStorage.setItem("apiUrl",  process.env.REACT_APP_API_URL)
+    // const myGlobalVar = process.env.REACT_APP_API_URL;
+    // console.log(myGlobalVar)
     // console.log(localStorage.getItem('authToken'))
     useEffect(() => {
         localStorage.setItem("currentPage", currentPage);
@@ -39,7 +39,7 @@ const App = () => {
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/v1/specialists/profile",
+                `http://${localStorage.getItem("apiUrl")}:8080/api/v1/specialists/profile`,
                 {
                     method: "GET",
                     headers: {
@@ -67,7 +67,7 @@ const App = () => {
     };
 
     const fetchSkills = useCallback(async (type) => {
-        const url = `http://localhost:8080/api/v1/skills?type=${type}`;
+        const url = `http://${localStorage.getItem("apiUrl")}:8080/api/v1/skills?type=${type}`;
         const authToken = localStorage.getItem("authToken");
         const isUser = localStorage.getItem("userRole") === "ROLE_USER";
         try {
@@ -124,7 +124,7 @@ const App = () => {
 
     const fetchUserProfileData = async (authToken) => {
         const userProfileResponse = await fetch(
-            "http://localhost:8080/api/v1/specialists/profile",
+            `http://${localStorage.getItem("apiUrl")}:8080/api/v1/specialists/profile`,
             {
                 method: "GET",
                 headers: {

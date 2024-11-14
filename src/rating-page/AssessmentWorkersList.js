@@ -353,7 +353,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
             if (isMaster) {
                 // try {
                 //     const response = await fetch(
-                //         "http://localhost:8080/api/v1/assessment-process/created",
+                //         `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process/created`,
                 //         {
                 //             method: "GET",
                 //             headers: {
@@ -370,7 +370,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
             } else {
                 // try {
                 //     const response = await fetch(
-                //         "http://localhost:8080/api/v1/assessment-process",
+                //         `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process`,
                 //         {
                 //             method: "GET",
                 //             headers: {
@@ -399,7 +399,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
         if (isMaster) {
             // try {
             //     const response = await fetch(
-            //         `http://localhost:8080/api/v1/assessment-process/${id}/results`,
+            //         `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process/${id}/results`,
             //         {
             //             method: "GET",
             //             headers: {
@@ -425,7 +425,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
         } else {
             // try {
             //     const response = await fetch(
-            //         `http://localhost:8080/api/v1/assessment-process/${id}`,
+            //         `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process/${id}`,
             //         {
             //             method: "GET",
             //             headers: {
@@ -472,7 +472,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/v1/assessment-process/${selectedAssessmentId}`,
+                `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process/${selectedAssessmentId}`,
                 {
                     method: "POST",
                     headers: {
