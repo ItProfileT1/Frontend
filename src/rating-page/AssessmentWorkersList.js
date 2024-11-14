@@ -491,7 +491,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
             console.error("Ошибка отправки оценок:", error);
         }
     };
-
+    
     return (
         <div className="assessment-workers-list-page">
             <div>
@@ -582,9 +582,9 @@ const AssessmentWorkersList = ({ onPageChange }) => {
                                                         width: dimensions.score,
                                                     }}
                                                 >
-                                                    {!localStorage.getItem(
+                                                    {!(localStorage.getItem(
                                                         "userRole"
-                                                    ) === "ROLE_MASTER" && (
+                                                    ) === "ROLE_MASTER") && (
                                                         <option value="Не выбрано">
                                                             Не выбрано
                                                         </option>
