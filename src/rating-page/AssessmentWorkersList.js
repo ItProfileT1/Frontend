@@ -472,7 +472,9 @@ const AssessmentWorkersList = ({ onPageChange }) => {
 
         try {
             const response = await fetch(
-                `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-process/${selectedAssessmentId}`,
+                `http://${localStorage.getItem(
+                    "apiUrl"
+                )}:8080/api/v1/assessment-process/${selectedAssessmentId}`,
                 {
                     method: "POST",
                     headers: {
@@ -491,7 +493,7 @@ const AssessmentWorkersList = ({ onPageChange }) => {
             console.error("Ошибка отправки оценок:", error);
         }
     };
-    
+
     return (
         <div className="assessment-workers-list-page">
             <div>
@@ -582,9 +584,11 @@ const AssessmentWorkersList = ({ onPageChange }) => {
                                                         width: dimensions.score,
                                                     }}
                                                 >
-                                                    {!(localStorage.getItem(
-                                                        "userRole"
-                                                    ) === "ROLE_MASTER") && (
+                                                    {!(
+                                                        localStorage.getItem(
+                                                            "userRole"
+                                                        ) === "ROLE_MASTER"
+                                                    ) && (
                                                         <option value="Не выбрано">
                                                             Не выбрано
                                                         </option>
@@ -620,7 +624,9 @@ const AssessmentWorkersList = ({ onPageChange }) => {
                         onClick={handleSubmitRatings}
                         disabled={!allSkillsRated}
                     >
-                        Оценить
+                        {localStorage.getItem("userRole") === "ROLE_MASTER"
+                            ? "Подтвердить"
+                            : "Оценить"}
                     </button>
                 </div>
             </div>
