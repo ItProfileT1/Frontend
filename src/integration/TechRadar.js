@@ -78,6 +78,7 @@ const mockElements = [
 
 const IntegrationTechRadar = ({ onPageChange }) => {
     const [loading, setLoading] = useState(true);
+    const [isFirstFetch, setIsFirstFetch] = useState(true);
 
     useEffect(() => {
         const fetchTechRadarData = async () => {
@@ -94,7 +95,14 @@ const IntegrationTechRadar = ({ onPageChange }) => {
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
+                    let data;
+
+                    if (isFirstFetch) {
+                        data = [];
+                        setIsFirstFetch(false); 
+                    } else {
+                        data = await response.json();
+                    }
 
                     document
                         .getElementById("iframe")
@@ -114,7 +122,7 @@ const IntegrationTechRadar = ({ onPageChange }) => {
         };
 
         fetchTechRadarData();
-    }, []);
+    }, [isFirstFetch]);
 
     // document
     //     .getElementById("iframe")

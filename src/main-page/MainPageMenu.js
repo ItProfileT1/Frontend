@@ -40,7 +40,6 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         { label: "Создать пользователя", action: "createUser" },
         { label: "Изменить карту<br/>Хард скиллов", action: "editHardSkills" },
         { label: "Изменить карту<br/>Софт скиллов", action: "editSoftSkills" },
-        { label: "Интеграция<br/>Техрадар", action: "techRadarIntegration" },
         { label: "Выйти", action: "logout" },
     ];
 
@@ -50,6 +49,7 @@ const MainPageMenu = ({ onPageChange, onLogout, fetchSkills }) => {
         //     label: "Список сотрудников<br/>на оценку",
         //     action: "viewEmployeesForRating",
         // },
+        { label: "Интеграция<br/>Техрадар", action: "techRadarIntegration" },
         { label: "Просмотр оценок", action: "viewRatings" },
         { label: "Выйти", action: "logout" },
     ];
