@@ -36,7 +36,7 @@ const Profile = ({ userData, display_page, onPageChange }) => {
                 className={styles.userPhoto}
                 src={
                     userData.photoPath ||
-                    `${process.env.PUBLIC_URL}/assets/alt-photo.jpg`
+                    `${process.env.PUBLIC_URL}/assets/alt-photo1.jpg`
                 }
                 alt=""
             />

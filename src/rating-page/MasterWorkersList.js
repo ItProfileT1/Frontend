@@ -60,6 +60,7 @@ const MasterWorkersList = ({ onPageChange }) => {
         setSkillsType(type);
         const workerSkills = workersData[workerId];
         setSkills(workerSkills ? workerSkills[type.toLowerCase()] : []);
+
         setAssessors(workerSkills ? workerSkills.assessors : []);
         setSelectedWorker(workerId);
         setSkillsIds([]);
@@ -91,7 +92,7 @@ const MasterWorkersList = ({ onPageChange }) => {
             assessorsIds,
             skillsIds,
         };
-
+        // return console.log(requestData);
         try {
             const response = await fetch(
                 `http://${localStorage.getItem("apiUrl")}:8080/api/v1/assessment-processes`,

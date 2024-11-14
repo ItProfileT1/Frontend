@@ -56,7 +56,6 @@ const RegisterProfile = ({ onPageChange, fetchSkills }) => {
             if (response.ok) {
                 onPageChange("main");
             } else {
-                console.log(response);
                 console.error("Ошибка при создании профиля");
             }
         } catch (error) {
