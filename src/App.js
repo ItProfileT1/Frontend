@@ -16,7 +16,7 @@ const App = () => {
     );
     const [pageData, setPageData] = useState(null);
     localStorage.setItem("apiUrl",  "$}")
-    const myGlobalVar = process.env.URL;
+    const myGlobalVar = process.env.REACT_APP_API_URL;
     console.log(myGlobalVar)
     // console.log(localStorage.getItem('authToken'))
     useEffect(() => {
