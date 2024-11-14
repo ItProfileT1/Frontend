@@ -15,6 +15,9 @@ const App = () => {
         localStorage.getItem("currentPage") || "login"
     );
     const [pageData, setPageData] = useState(null);
+    localStorage.setItem("apiUrl",  "$}")
+    const myGlobalVar = process.env.URL;
+    console.log(myGlobalVar)
     // console.log(localStorage.getItem('authToken'))
     useEffect(() => {
         localStorage.setItem("currentPage", currentPage);
@@ -246,9 +249,9 @@ const App = () => {
                         />
                         <SkillPage
                             onPageChange={renderPage}
-                            initialSkillsData={pageData.initialSkillsData}
-                            pageToRender={pageData.pageToRender}
-                            typeId={pageData.typeId}
+                            initialSkillsData={pageData?.initialSkillsData}
+                            pageToRender={pageData?.pageToRender}
+                            typeId={pageData?.typeId}
                             fetchSkills={fetchSkills}
                             addSkillId={pageData?.addSkillId}
                         />
