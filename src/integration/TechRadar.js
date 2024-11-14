@@ -78,7 +78,6 @@ const mockElements = [
 
 const IntegrationTechRadar = ({ onPageChange }) => {
     const [loading, setLoading] = useState(true);
-    const [isFirstFetch, setIsFirstFetch] = useState(true);
 
     useEffect(() => {
         const fetchTechRadarData = async () => {
@@ -95,21 +94,18 @@ const IntegrationTechRadar = ({ onPageChange }) => {
                 });
 
                 if (response.ok) {
-                    let data;
+                    const data = await response.json();
 
-                    if (isFirstFetch) {
-                        data = [];
-                        setIsFirstFetch(false); 
+                    if (data.length === 0) {
+                        setTimeout(fetchTechRadarData, 1000);
                     } else {
-                        data = await response.json();
+                        document
+                            .getElementById("iframe")
+                            ?.contentWindow.postMessage(
+                                { type: "setData", data },
+                                "*"
+                            );
                     }
-
-                    document
-                        .getElementById("iframe")
-                        ?.contentWindow.postMessage(
-                            { type: "setData", data },
-                            "*"
-                        );
                 } else {
                     console.error(
                         "Ошибка при загрузке данных с сервера:",
@@ -121,8 +117,8 @@ const IntegrationTechRadar = ({ onPageChange }) => {
             }
         };
 
-        fetchTechRadarData();
-    }, [isFirstFetch]);
+        fetchTechRadarData(); // Начальный вызов функции
+    }, []);
 
     // document
     //     .getElementById("iframe")
